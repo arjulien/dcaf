@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>KVM-Host Module &mdash; CSC DCAF 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
+        <link rel="next" title="RHEL-OSP Module" href="rhel_osp_module.html"/>
+        <link rel="prev" title="Bare-Metal-OS Module" href="bare_metal_os_module.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CSC DCAF
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">KVM-Host Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#two-host-types">Two Host Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-the-inventory">Modify the Inventory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inventory-directory-file-structure">Inventory Directory/File Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosts-ini">hosts.ini</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-host-project-variables">Modify Host &amp; Project Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-vars">host_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-vars">group_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variables-in-roles">Variables in Roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-the-kvm-hosts-and-vms">Deploy the KVM hosts and VMs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CSC DCAF</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>KVM-Host Module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/kvm_host_module.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="kvm-host-module">
+<h1>KVM-Host Module<a class="headerlink" href="#kvm-host-module" title="Permalink to this headline">¶</a></h1>
+<p>The KVM-Host module is intended to be utilized on a CSC DCAF bare-metal RHEL
+deployment but can be used on an existing environment providing it meets module
+requirements. The module will add KVM host support to specified RHEL hosts then
+deploy and configure virtual machines on them. The number of KVM hosts and VMs
+to be deployed is dictated by the inventory.</p>
+<p>The KVM-Host deployment contains two types of hosts, one is the physical host (kvm-host)
+the other is a virtual host (vm). They are differentiated by the inventory.</p>
+<p>At this point the RHEL OS has been successfully deployed on all hosts in the <code class="docutils literal"><span class="pre">hosts.ini</span></code>
+file by the Bare-Metal-OS module. To use the KVM-Host automation modify the CSC
+DCAF inventory and variable files then run the playbook(s).</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>Ensure that the following requirements are met:</p>
+</div>
+<div class="section" id="two-host-types">
+<h2>Two Host Types<a class="headerlink" href="#two-host-types" title="Permalink to this headline">¶</a></h2>
+<p>The modules has two host types differentiated by the inventory:</p>
+<ul class="simple">
+<li><strong>kvm-host</strong> is a pre-installed RHEL host that this module will install and configure
+KVM host support on.</li>
+<li><strong>vm</strong> hosts are just that, virtual machines created for the Red Hat OpenStack
+Platform. The number of VMs created depends on how the deployment is architected
+configured by the inventory.</li>
+</ul>
+</div>
+<div class="section" id="modify-the-inventory">
+<h2>Modify the Inventory<a class="headerlink" href="#modify-the-inventory" title="Permalink to this headline">¶</a></h2>
+<p>The CSC DCAF inventory is located in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory</span></code>
+folder and is the central inventory for all modules. It is based on the Ansible
+inventory hierarchy. The inventory found within this module is only provided as an
+example.</p>
+<div class="section" id="inventory-directory-file-structure">
+<h3>Inventory Directory/File Structure<a class="headerlink" href="#inventory-directory-file-structure" title="Permalink to this headline">¶</a></h3>
+<p>The module follows the default Ansible inventory hierarchy. It only contains the
+files necessary for it to run. Notice there is an <code class="docutils literal"><span class="pre">example-host-type.yml</span></code> file
+for each of the two host types.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/kvm-host/inventory/
+-- /group_vars
+      kvm_host.yml
+-- hosts.ini
+-- /host_vars
+      example_kvmhost.yml
+      example_vm.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="hosts-ini">
+<h3>hosts.ini<a class="headerlink" href="#hosts-ini" title="Permalink to this headline">¶</a></h3>
+<p>The inventory is managed by the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file. The inventory was created
+by the Bare-Metal-OS module but must be modified to use with KVM-Host.</p>
+<p>Edit the inventory to reflect your environment.</p>
+<ul class="simple">
+<li><strong>hosts.ini</strong> - Copy and append the contents of the <code class="docutils literal"><span class="pre">/kvm-hosts/inventory/hosts.ini</span></code>
+file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> file and modify as needed.
+If appending to this file ensure there is no duplication. All hosts listed should be
+under a <code class="code docutils literal"><span class="pre">[group]</span></code> heading.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">kvm-host/inventory/hosts.ini</span></code> file contains many <code class="code docutils literal"><span class="pre">[group]</span></code> sections
+with hosts and <code class="code docutils literal"><span class="pre">[group:children]</span></code> sections with groups as an example. Only
+modify the <code class="code docutils literal"><span class="pre">[group]</span></code> of hosts as needed.</p>
+</div>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Example</span><span class="p p-Indicator">:</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># Do not modify a [group:children] section, they are module specific</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+
+<span class="c1"># This entry should always be present - do not mpdify</span>
+<span class="p p-Indicator">[</span><span class="nv">autodeploynode</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">localhost ansible_connection=local</span>
+
+<span class="c1"># KVM host machine(s) - modify as needed</span>
+<span class="p p-Indicator">[</span><span class="nv">kvmhosts</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">kvm-controller-1</span>
+<span class="l l-Scalar l-Scalar-Plain">kvm-controller-2</span>
+<span class="l l-Scalar l-Scalar-Plain">kvm-controller-3</span>
+
+<span class="c1"># VM(s) to be created - modify as needed</span>
+<span class="p p-Indicator">[</span><span class="nv">nodes</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">controller-1</span>
+<span class="l l-Scalar l-Scalar-Plain">controller-2</span>
+<span class="l l-Scalar l-Scalar-Plain">controller-3</span>
+<span class="l l-Scalar l-Scalar-Plain">haproxy-1</span>
+<span class="l l-Scalar l-Scalar-Plain">haproxy-2</span>
+<span class="l l-Scalar l-Scalar-Plain">network-1</span>
+<span class="l l-Scalar l-Scalar-Plain">network-2</span>
+<span class="l l-Scalar l-Scalar-Plain">network-3</span>
+<span class="l l-Scalar l-Scalar-Plain">swift-1</span>
+<span class="l l-Scalar l-Scalar-Plain">swift-2</span>
+<span class="l l-Scalar l-Scalar-Plain">swift-3</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not modify a group of groups <code class="code docutils literal"><span class="pre">[group:children]</span></code>. These groups are defined
+by the module. Add the required hosts in the respective <code class="code docutils literal"><span class="pre">[group]</span></code> section
+as needed.</p>
+</div>
+</div>
+<div class="section" id="modify-host-project-variables">
+<h3>Modify Host &amp; Project Variables<a class="headerlink" href="#modify-host-project-variables" title="Permalink to this headline">¶</a></h3>
+<p>This module uses multiple variables that are managed in various files. The
+<code class="docutils literal"><span class="pre">/kvm-host/inventory/host_vars/</span></code> folder contains host specific
+variable files and the <code class="docutils literal"><span class="pre">/kvm-host/inventory/group_vars/</span></code> folder
+contains module specific variable files.</p>
+</div>
+<div class="section" id="host-vars">
+<h3>host_vars<a class="headerlink" href="#host-vars" title="Permalink to this headline">¶</a></h3>
+<p>The variables that will be applied to a specific host are stored in a <code class="docutils literal"><span class="pre">host_name.yml</span></code>
+file. There are two in the example inventory, one for the <code class="docutils literal"><span class="pre">autodeploynode</span></code> and
+one for <code class="docutils literal"><span class="pre">hostname-1</span></code>.</p>
+<ul class="simple">
+<li><strong>host_name.yml</strong> - There should be a <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars/host_name.yml</span></code>
+for each host, physical and virtual, in the hosts.ini file. Since these files
+were created by a previous module they may need to be renamed. For example if
+the files are named <code class="docutils literal"><span class="pre">host_name-1,</span> <span class="pre">host_name-2,</span> <span class="pre">...</span></code> they may will need to be
+renamed for your deployment <code class="docutils literal"><span class="pre">kvm-controller-1,kvm-controller-2,</span> <span class="pre">...</span></code>. Copy and
+append the contents of the appropriate <code class="docutils literal"><span class="pre">/kvm-host/inventory/host_vars/example_kvmhost.yml</span></code>
+or <code class="docutils literal"><span class="pre">/kvm-host/inventory/host_vars/example_vm.yml</span></code> file and changing values as needed.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/kvm-host/inventory/
+-- /host_vars
+      example_kvmhost.yml
+      example_vm.yml
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The KVM-Host module has two types of <cite>hosts</cite>, one is the physical host (kvm-host)
+and the virtual host (vm). Copy, rename and modify the appropriate type of example
+host file as needed.</p>
+</div>
+<p>Below is the <code class="docutils literal"><span class="pre">example_kvmhost.yml</span></code></p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="l l-Scalar l-Scalar-Plain">ansible_ssh_host</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.16.70</span>
+<span class="l l-Scalar l-Scalar-Plain">mgmt_nic</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">em3</span>
+
+<span class="l l-Scalar l-Scalar-Plain">vlan_interface</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">ext_if</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">bond</span><span class="p p-Indicator">:</span> <span class="s">&quot;bond0&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">dns1</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.70.3</span>
+    <span class="l l-Scalar l-Scalar-Plain">gateway</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.21.1</span>
+    <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.21.70</span>
+    <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">vlan</span><span class="p p-Indicator">:</span> <span class="s">&#39;{{</span><span class="nv"> </span><span class="s">external_vlan</span><span class="nv"> </span><span class="s">}}&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">int_if</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">bond</span><span class="p p-Indicator">:</span> <span class="s">&quot;bond0&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">dns1</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.10.22</span>
+    <span class="l l-Scalar l-Scalar-Plain">gateway</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.17.1</span>
+    <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.17.70</span>
+    <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">vlan</span><span class="p p-Indicator">:</span> <span class="s">&#39;{{</span><span class="nv"> </span><span class="s">management_vlan</span><span class="nv"> </span><span class="s">}}&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">storage_if</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">bond</span><span class="p p-Indicator">:</span> <span class="s">&quot;bond0&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.19.70</span>
+    <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">vlan</span><span class="p p-Indicator">:</span> <span class="s">&#39;{{</span><span class="nv"> </span><span class="s">storage_public_vlan</span><span class="nv"> </span><span class="s">}}&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">vm_ext_if</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">bond</span><span class="p p-Indicator">:</span> <span class="s">&quot;bond0&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.20.70</span>
+    <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">vlan</span><span class="p p-Indicator">:</span> <span class="s">&#39;{{</span><span class="nv"> </span><span class="s">storage_cluster_vlan</span><span class="nv"> </span><span class="s">}}&#39;</span>
+  <span class="l l-Scalar l-Scalar-Plain">tun_if</span><span class="p p-Indicator">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">bond</span><span class="p p-Indicator">:</span> <span class="s">&quot;bond0&quot;</span>
+    <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.17.18.70</span>
+    <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+    <span class="l l-Scalar l-Scalar-Plain">vlan</span><span class="p p-Indicator">:</span> <span class="s">&#39;{{</span><span class="nv"> </span><span class="s">tenant_vlan</span><span class="nv"> </span><span class="s">}}&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="group-vars">
+<h3>group_vars<a class="headerlink" href="#group-vars" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned above Ansible allows you to group hosts and assign variables to a
+<code class="code docutils literal"><span class="pre">[group]</span></code>. This allows you to run plays against multiple hosts without
+having to specify them individually. The variables that will be applied to a
+specific group, or group of groups, are stored in a <code class="docutils literal"><span class="pre">group_name.yml</span></code> file. The
+name of this file must match the name of the corresponding <code class="code docutils literal"><span class="pre">[group]</span></code> in the
+<code class="docutils literal"><span class="pre">hosts.ini</span></code> file.</p>
+<p>This module uses a single group_vars file <code class="docutils literal"><span class="pre">/kvm-host/inventory/group_vars/kvm_host.yml</span></code>.
+Notice it matches the <code class="code docutils literal"><span class="pre">[kvm_host]</span></code> group section in the <code class="docutils literal"><span class="pre">hosts.ini</span></code> for the
+module so all hosts will have access to these variables.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">/kvm-host/inventory/</span>
+<span class="l l-Scalar l-Scalar-Plain">-- /group_vars</span>
+      <span class="l l-Scalar l-Scalar-Plain">kvm_host.yml</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>kvm_host.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/kvm-host/inventory/group_vars/kvm_host.yml</span></code>
+file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder and modify
+as needed per the environment.</li>
+</ul>
+</div>
+<div class="section" id="variables-in-roles">
+<h3>Variables in Roles<a class="headerlink" href="#variables-in-roles" title="Permalink to this headline">¶</a></h3>
+<p>Ansible roles allow you to organize playbooks and reuse common configuration steps
+between different types of hosts. A role will allow you to define what a host is
+supposed to do, instead of having to specify the steps needed to get a server
+configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
+and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
+would need to be modified. Always review both sets of variables for comtent.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/kvm-host/roles/some_role
+-- /defaults
+      main.yml
+-- /vars
+      main.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploy-the-kvm-hosts-and-vms">
+<h3>Deploy the KVM hosts and VMs<a class="headerlink" href="#deploy-the-kvm-hosts-and-vms" title="Permalink to this headline">¶</a></h3>
+<p>Next run the <code class="docutils literal"><span class="pre">kvm-host/site.yml</span></code> playbook to deploy KVM hosts and the VMs defined
+in the inventory <code class="docutils literal"><span class="pre">hosts.ini</span></code>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/kvm-host
+ansible-playbook site.yml -i ../../inventory/hosts.ini
+</pre></div>
+</div>
+<p>At this point the KVM host support has been installed and configured on all hosts
+and the VMs listed in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> have
+been created.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rhel_osp_module.html" class="btn btn-neutral float-right" title="RHEL-OSP Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bare_metal_os_module.html" class="btn btn-neutral" title="Bare-Metal-OS Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, CSC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

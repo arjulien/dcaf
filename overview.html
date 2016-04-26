@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; CSC DCAF 1.2 documentation</title>
+  <title>Overview &mdash; CSC DCAF 1.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="CSC DCAF 1.2 documentation" href="index.html"/>
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
         <link rel="next" title="CSC DCAF Quick Start Guides" href="quickstart.html"/>
         <link rel="prev" title="CSC DCAF Documentation" href="index.html"/> 
 
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -83,20 +83,20 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#project-sources">Project Sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#the-autodeploynode">The Autodeploynode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#csc-dcaf-modes">CSC DCAF Modes</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#online-mode">Online Mode</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#offline-mode">Offline Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#csc-dcaf-and-ansible-automation">CSC DCAF and Ansible Automation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ansible-inventory">Ansible Inventory</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#csc-dcaf-projects-modules">CSC DCAF Projects &amp; Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-autodeploynode">The Autodeploynode</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config_autodeploy_node.html">AutoDeployNode Creation - Online Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="offline_autodeploy_node.html">AutoDeployNode Creation - Offline Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bare_metal_os.html">Bare Metal OS Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -144,24 +144,88 @@
             
   <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>The CSC Data Center Automation Framework (DCAF) is a collection of resources
-designed to automate various platforms and deployments within the data center.
-It is comprised of CSC public open source projects, and various community based
-open source projects.</p>
-<div class="section" id="project-sources">
-<h2>Project Sources<a class="headerlink" href="#project-sources" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="https://github.com/csc/dcaf">CSC DCAF</a> is a collection of resources designed
-to automate various platforms and deployments within the data center. It is kept
-under source control in a GitHub repository and includes the following CSC modules:</p>
+<p>The CSC Data Center Automation Framework <a class="reference external" href="https://github.com/csc/dcaf">(DCAF)</a>
+is a collection of resources designed to automate various platforms and deployments
+within the data center. It is based on <a class="reference external" href="http://docs.ansible.com/ansible/index.html">Ansible</a>
+automation. Ansible in short is an automation platform that can configure, deploy
+and orchestrate IT tasks.</p>
+<p>CSC DCAF is comprised of CSC public open source projects, and various community
+based open source projects.</p>
+<div class="section" id="csc-dcaf-and-ansible-automation">
+<h2>CSC DCAF and Ansible Automation<a class="headerlink" href="#csc-dcaf-and-ansible-automation" title="Permalink to this headline">¶</a></h2>
+<p>As previously mentioned the CSC DCAF project is based on Ansible automation. It
+follows the Ansible hierarchy, best practices and uses their pre-written modules.</p>
+<p>The key things to note about Ansible are:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.ansible.com/ansible/intro_inventory.html">Inventory</a> contains
+the hosts that Ansible will execute against and the configuration variable
+files. The inventory is configurable and can customized to your environment.</li>
+<li><a class="reference external" href="http://docs.ansible.com/ansible/playbooks.html">Playbooks</a> are Ansible&#8217;s
+configuration, deployment and orchestration language. They are used to manage
+configurations of and deployments to remote machines. They are written in YAML
+syntax.</li>
+</ul>
+<div class="section" id="ansible-inventory">
+<h3>Ansible Inventory<a class="headerlink" href="#ansible-inventory" title="Permalink to this headline">¶</a></h3>
+<p>The inventory for CSC DCAF is located in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory</span></code>
+folder. It follows the Ansible inventory hierarchy:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/inventory
+-- /group_vars
+      all.yml
+      group_name.yml
+-- hosts.ini
+-- /host_vars
+      host_name.yml
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>hosts.ini</strong> - The inventory file that contains the names of the hosts Ansible
+will execute against. Hosts can be grouped by adding a <code class="code docutils literal"><span class="pre">[group]</span></code> section
+heading and placing desired hosts under it. Groups can also be grouped the same
+way.</li>
+</ul>
+<blockquote>
+<div><strong>Example:</strong></div></blockquote>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span>  <span class="p p-Indicator">[</span><span class="nv">groups</span><span class="p p-Indicator">:</span><span class="nv">children</span><span class="p p-Indicator">]</span>
+  <span class="l l-Scalar l-Scalar-Plain">group1</span>
+  <span class="l l-Scalar l-Scalar-Plain">group2</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">[group1]</span>
+  <span class="l l-Scalar l-Scalar-Plain">host1</span>
+  <span class="l l-Scalar l-Scalar-Plain">host2</span>
+
+  <span class="l l-Scalar l-Scalar-Plain">[group2]</span>
+  <span class="l l-Scalar l-Scalar-Plain">host3</span>
+
+<span class="l l-Scalar l-Scalar-Plain">- **host_name.yml** - There should be a ``host_name.yml`` file for each host in the</span>
+<span class="l l-Scalar l-Scalar-Plain">``hosts.ini`` file. This file will contain variables that will be assigned to the</span>
+<span class="l l-Scalar l-Scalar-Plain">host when the playbook runs.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>all.yml</strong> - This file contains variables that apply to all hosts in the
+<code class="docutils literal"><span class="pre">hosts.ini</span></code>. These are referred to as global variables.</li>
+<li><strong>group_name.yml</strong> - This file can be used to specify variables that only get
+to the <code class="docutils literal"><span class="pre">group</span></code> in the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file. The name of this file must match the
+name of the <code class="code docutils literal"><span class="pre">[group]</span></code> in the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file.</li>
+</ul>
+<p>Refer to the Ansible <a class="reference external" href="http://docs.ansible.com/ansible/intro_inventory.html">Inventory</a>
+for additional information.</p>
+</div>
+</div>
+<div class="section" id="csc-dcaf-projects-modules">
+<h2>CSC DCAF Projects &amp; Modules<a class="headerlink" href="#csc-dcaf-projects-modules" title="Permalink to this headline">¶</a></h2>
+<p>The CSC DCAF project is kept under source control in a GitHub repository and includes
+the following CSC modules:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/csc/dcaf/autodeploynode">Autodeploynode</a> - Provisions and
 and configures the CSC DCAF Autodeploynode.</li>
-<li><a class="reference external" href="https://github.com/csc/dcaf/bare-metal-os">Bare-metal-OS</a> - An automated
+<li><a class="reference external" href="https://github.com/csc/dcaf/bare-metal-os">Bare-Metal-OS</a> - An automated
 deployment of an operating system to bare-metal hardware using Hanlon, currently
 the Red Hat Enterprise Linux OS.</li>
-<li><a class="reference external" href="https://github.com/csc/dcaf/kvm-host">Kvm-host</a> - An automated deployment and
+<li><a class="reference external" href="https://github.com/csc/dcaf/kvm-host">KVM-Host</a> - An automated deployment and
 configuration of virtual machines on RHEL KVM hosts.</li>
-<li><a class="reference external" href="https://github.com/csc/dcaf/rhel-osp">Rhel-osp</a> - An automated deployment of
+<li><a class="reference external" href="https://github.com/csc/dcaf/rhel-osp">RHEL-OSP</a> - An automated deployment of
 a Red Hat OpenStack Cluster with high availability.</li>
 <li><a class="reference external" href="https://github.com/csc/dcaf/vmware">Vmware</a> - An automated deployment of
 a VMware Virtual Infrastructure on bare-metal hardware.</li>
@@ -204,31 +268,6 @@ used to stand up the Hanlon instance and it&#8217;s requirements, MongoDB and a 
 server. In order to automatically discover and provision physical hardware, a DHCP
 server is configured to provide addresses on the local subnet. Ansible is used as
 the automation tool to deploy and configure systems and applications.</p>
-</div>
-<div class="section" id="csc-dcaf-modes">
-<h2>CSC DCAF Modes<a class="headerlink" href="#csc-dcaf-modes" title="Permalink to this headline">¶</a></h2>
-<p>Since CSC DCAF is a framework, it is designed to be used in two different
-operational modes. The two modes are online and offline and are detailed below.</p>
-<div class="section" id="online-mode">
-<h3>Online Mode<a class="headerlink" href="#online-mode" title="Permalink to this headline">¶</a></h3>
-<p>When CSC DCAF is used in online mode the Autodeploynode is connected to an external
-network with direct access to automation resources. The CSC Decaf projects are
-stored in source controlled repositories on Github and other resources such as
-RPMs and ISOs are downloaded directly from the Internet.</p>
-</div>
-<div class="section" id="offline-mode">
-<h3>Offline Mode<a class="headerlink" href="#offline-mode" title="Permalink to this headline">¶</a></h3>
-<p>When CSC DCAF is used in offline mode the Autodeploynode does not have external
-network access and cannot get to the automation resources. For this reason
-additional resources are needed and steps must be taken to prepare for an offline
-Autodeploynode installation.</p>
-<p>In offline mode all automation resources will be retrieved from the Internet by
-a <code class="code docutils literal"><span class="pre">staging</span> <span class="pre">node</span></code> that has Internet access. They will be saved to a USB hard
-drive connected to this node and will later be moved to the offline Autodeploynode
-and used for deployment. Once this is done all projects can be used as documented.
-Keep in mind that the method of retrieving the automation resources will have to
-be repeated in order to obtain any updates.</p>
-</div>
 </div>
 </div>
 
@@ -273,7 +312,7 @@ be repeated in order to obtain any updates.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2',
+            VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

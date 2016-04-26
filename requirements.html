@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Requirements &amp; Dependencies &mdash; CSC DCAF 1.2 documentation</title>
+  <title>Requirements &amp; Dependencies &mdash; CSC DCAF 1.0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="CSC DCAF 1.2 documentation" href="index.html"/>
-        <link rel="next" title="AutoDeployNode Creation - Online Mode" href="config_autodeploy_node.html"/>
-        <link rel="prev" title="Slimer Quick Start Guide" href="quickstart_slimer.html"/> 
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Autodeploynode Module" href="autodeploynode_module.html"/>
+        <link rel="prev" title="Ansible-ScaleIO Quick Start Guide" href="quickstart_ansible_scaleio.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -88,14 +88,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#user-access-requirements">User Access Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#physical-hardware">Physical Hardware</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#network-requirements">Network Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#offline-staging-node-to-stage-offline-autodeploynode">Offline Staging Node (to stage offline AutoDeployNode)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#autodeploynode">AutoDeployNode</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#target-deployment-environment">Target Deployment Environment</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="config_autodeploy_node.html">AutoDeployNode Creation - Online Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="offline_autodeploy_node.html">AutoDeployNode Creation - Offline Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bare_metal_os.html">Bare Metal OS Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -177,17 +177,6 @@ with it.</li>
 <li>Management IP address for each node</li>
 </ul>
 </div>
-<div class="section" id="offline-staging-node-to-stage-offline-autodeploynode">
-<h2>Offline Staging Node (to stage offline AutoDeployNode)<a class="headerlink" href="#offline-staging-node-to-stage-offline-autodeploynode" title="Permalink to this headline">¶</a></h2>
-<p>For an offline mode deployment a Linux machine with Internet access is required
-to download the automation resources and prepare the USB drive.</p>
-<ul class="simple">
-<li>Staging node (existing or new laptop/server)</li>
-<li>Red Hat Enterprise Linux workstation or server instance</li>
-<li>A user with sudo access</li>
-<li>At least a 250GB USB Hard Drive (as a repository)</li>
-</ul>
-</div>
 <div class="section" id="autodeploynode">
 <h2>AutoDeployNode<a class="headerlink" href="#autodeploynode" title="Permalink to this headline">¶</a></h2>
 <p>The AutoDeployNode will contain all the necessary automation resources to use
@@ -224,10 +213,10 @@ addresses</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="config_autodeploy_node.html" class="btn btn-neutral float-right" title="AutoDeployNode Creation - Online Mode" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="autodeploynode_module.html" class="btn btn-neutral float-right" title="Autodeploynode Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="quickstart_slimer.html" class="btn btn-neutral" title="Slimer Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quickstart_ansible_scaleio.html" class="btn btn-neutral" title="Ansible-ScaleIO Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -258,7 +247,7 @@ addresses</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2',
+            VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

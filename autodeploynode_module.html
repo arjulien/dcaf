@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>AutoDeployNode Creation - Online Mode &mdash; CSC DCAF 1.2 documentation</title>
+  <title>Autodeploynode Module &mdash; CSC DCAF 1.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   
 
   
-    <link rel="top" title="CSC DCAF 1.2 documentation" href="index.html"/>
-        <link rel="next" title="AutoDeployNode Creation - Offline Mode" href="offline_autodeploy_node.html"/>
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Bare-Metal-OS Module" href="bare_metal_os_module.html"/>
         <link rel="prev" title="Requirements &amp; Dependencies" href="requirements.html"/> 
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -85,23 +85,30 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">AutoDeployNode Creation - Online Mode</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Autodeploynode Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-rhel-os">Install the RHEL OS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#set-the-static-ip">Set the Static IP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-the-hostname">Set the Hostname</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#configure-autodeploynode">Configure AutoDeployNode</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#use-scripted-install">Use Scripted Install</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#manual-install">Manual Install</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-dcaf-base-variables">Configure DCAF Base variables</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#running-dcaf-base-playbooks">Running DCAF Base Playbooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-autodeploynode">Configure Autodeploynode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scripted-install">Scripted Install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#manual-install">Manual Install</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#register-with-subscription-manager">Register with Subscription Manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-support-packages">Install Support Packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-ansible">Install Ansible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-the-csc-dcaf-project-resources">Stage the CSC DCAF Project Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-dcaf-base-variables">Configure DCAF Base variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-autodeploynode-playbook">Running the Autodeploynode Playbook</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="offline_autodeploy_node.html">AutoDeployNode Creation - Offline Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bare_metal_os.html">Bare Metal OS Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -133,11 +140,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>AutoDeployNode Creation - Online Mode</li>
+    <li>Autodeploynode Module</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/config_autodeploy_node.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/autodeploynode_module.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -147,16 +154,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="autodeploynode-creation-online-mode">
-<h1>AutoDeployNode Creation - Online Mode<a class="headerlink" href="#autodeploynode-creation-online-mode" title="Permalink to this headline">¶</a></h1>
-<p>In online mode the AutoDeployNode is connected to an external network with direct
-access to automation resources. Since our projects have multiple dependencies we
-have automated the process to install and configure the AutoDeployNode as much as
-possible.</p>
+  <div class="section" id="autodeploynode-module">
+<h1>Autodeploynode Module<a class="headerlink" href="#autodeploynode-module" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>Autodeploynode</strong> is the main component of CSC DCAF project. This node contains
+all the source files and dependencies to support operation of the framework. It is
+connected to an external network with direct access to automation resources. Since
+our projects have multiple dependencies we have automated the process to install
+and configure the Autodeploynode as much as possible.</p>
 <div class="section" id="install-the-rhel-os">
 <h2>Install the RHEL OS<a class="headerlink" href="#install-the-rhel-os" title="Permalink to this headline">¶</a></h2>
-<p>The first step is to install RHEL. This can be physical or virtual as long as the
-requirements are met.</p>
+<p>The first step is to install RHEL. This can be a physical or virtual machine as
+long as all the requirements are met.</p>
 <p>Using the media that is appropriate for your hardware boot into the RHEL
 installation.</p>
 <p>On the installation summary page, you may see different selections with yellow
@@ -174,12 +182,12 @@ Create User: autodeploy
 <p>Here is a link to the <a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Installation_Guide/sect-installation-graphical-mode-x86.html">Red Hat Install guide</a></p>
 <div class="section" id="set-the-static-ip">
 <h3>Set the Static IP<a class="headerlink" href="#set-the-static-ip" title="Permalink to this headline">¶</a></h3>
-<p>Boot the AutoDeployNode and configure the network interface with a static IP address.
+<p>Boot the Autodeploynode and configure the network interface with a static IP address.
 For more information refer to the <a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Using_the_Command_Line_Interface.html">networking guide using the command line interface</a>.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>vi /etc/sysconfig/network-scripts/ifcfg-&lt;nic&gt;
 </pre></div>
 </div>
-<p>Modify the file to resemble this configuration with your specific network
+<p>Modify this file to resemble this configuration with your specific network
 configuration.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">BOOTPROTO</span><span class="o">=</span><span class="s2">&quot;none&quot;</span>
 <span class="nv">ONBOOT</span><span class="o">=</span>yes
@@ -200,13 +208,16 @@ configuration.</p>
 </div>
 </div>
 <div class="section" id="configure-autodeploynode">
-<h2>Configure AutoDeployNode<a class="headerlink" href="#configure-autodeploynode" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="use-scripted-install">
-<h3>Use Scripted Install<a class="headerlink" href="#use-scripted-install" title="Permalink to this headline">¶</a></h3>
-<p>The build of the AutoDeployNode is scripted and can be run after a few environment
-variables have been defined. The AutoDeployNode will need to install packages and
-download files needed by RHEL so it needs to be registered with subscription-manager.
-Environment variables for Red Hat Subscription credentials should be defined:</p>
+<h2>Configure Autodeploynode<a class="headerlink" href="#configure-autodeploynode" title="Permalink to this headline">¶</a></h2>
+<p>The Autodeploynode is responsible for all automation resources for a given project
+or module. The base CSC DCAF resources will be staged directly to it as part of
+the configuration.</p>
+<div class="section" id="scripted-install">
+<h3>Scripted Install<a class="headerlink" href="#scripted-install" title="Permalink to this headline">¶</a></h3>
+<p>The build of the Autodeploynode is scripted and can be run after a few environment
+variables have been defined. It will need to install packages and download files
+needed by RHEL so it needs to be registered with subscription-manager. Environment
+variables for Red Hat Subscription credentials should be defined:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">RHN_USER</span><span class="o">=</span><span class="s2">&quot;username&quot;</span>
 <span class="nb">export</span> <span class="nv">RHN_PASS</span><span class="o">=</span><span class="s2">&quot;password&quot;</span> <span class="c1"># escape dollar signs (\\$)</span>
 <span class="nb">export</span> <span class="nv">RHN_POOL</span><span class="o">=</span><span class="s2">&quot;pool_id&quot;</span> <span class="c1"># 32-char pool ID</span>
@@ -216,19 +227,21 @@ Environment variables for Red Hat Subscription credentials should be defined:</p
 <div class="highlight-bash"><div class="highlight"><pre><span></span>curl https://raw.githubusercontent.com/csc/dcaf/master/modules/autodeploynode/build.sh <span class="p">|</span> bash
 </pre></div>
 </div>
-<p>Review the details in the build script for a description of all the steps which
-are performed to build the AutoDeployNode.</p>
+<p>Review the details in the build script for a description of tasks performed to build
+the Autodeploynode.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="code docutils literal"><span class="pre">build.sh</span></code> script will perform a complete install and configuration
-of the AutoDeployNode using all project defaults. If there are changes required
+<p class="last">The <code class="code docutils literal"><span class="pre">build.sh</span></code> script will perform a complete stage and configuration
+of the Autodeploynode using all project defaults. If there are changes required
 for your environment, a manual installation should be performed.</p>
 </div>
 </div>
 <div class="section" id="manual-install">
 <h3>Manual Install<a class="headerlink" href="#manual-install" title="Permalink to this headline">¶</a></h3>
-<p>The AutoDeployNode will need to install packages and download files needed by RHEL
+<p>The Autodeploynode will need to install packages and download files needed by RHEL
 so it needs to be registered with subscription-manager.</p>
+<div class="section" id="register-with-subscription-manager">
+<h4>Register with Subscription Manager<a class="headerlink" href="#register-with-subscription-manager" title="Permalink to this headline">¶</a></h4>
 <p>Most commands require elevated privileges so you may need to <code class="code docutils literal"><span class="pre">su</span> <span class="pre">-</span></code>. Register
 with Red Hat Subscription Manager. Fill in the username and password with credentials
 that have a valid Red Hat subscription associated with it.</p>
@@ -252,11 +265,17 @@ subscription-manager repos --enable<span class="o">=</span>rhel-7-server-rpms <s
 --enable<span class="o">=</span>rhel-ha-for-rhel-7-server-rpms
 </pre></div>
 </div>
-<p>Next install the required support packages; epel-release, git and wget.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>yum -y install https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+</div>
+<div class="section" id="install-support-packages">
+<h4>Install Support Packages<a class="headerlink" href="#install-support-packages" title="Permalink to this headline">¶</a></h4>
+<p>Next install the required support packages; <code class="docutils literal"><span class="pre">epel-release,</span> <span class="pre">git</span> <span class="pre">and</span> <span class="pre">wget.</span></code></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>yum -y install https://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
 yum -y install git wget
 </pre></div>
 </div>
+</div>
+<div class="section" id="install-ansible">
+<h4>Install Ansible<a class="headerlink" href="#install-ansible" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Ansible v2.0 is currently not available from EPEL and must be installed from
@@ -278,10 +297,12 @@ yum -y --nogpgcheck localinstall ./rpm-build/ansible-*.noarch.rpm
 <span class="nb">cd</span> ..
 </pre></div>
 </div>
-<p><strong>Retrieve the CSC DCAF projects</strong></p>
+</div>
+<div class="section" id="stage-the-csc-dcaf-project-resources">
+<h4>Stage the CSC DCAF Project Resources<a class="headerlink" href="#stage-the-csc-dcaf-project-resources" title="Permalink to this headline">¶</a></h4>
 <p>Ansible has been installed and will be used to perform an automated download of
-the CSC DCAF project resources. First we need to download the <code class="code docutils literal"><span class="pre">initial_stage</span></code>
-play from the <code class="code docutils literal"><span class="pre">dcaf</span></code> Git repository.</p>
+the CSC DCAF project resources. First we need to download the <code class="docutils literal"><span class="pre">initial_stage</span></code>
+playbook from the <code class="docutils literal"><span class="pre">dcaf</span></code> Git repository.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>wget https://raw.githubusercontent.com/csc/dcaf/master/modules/autodeploynode/initial_stage.yml
 </pre></div>
 </div>
@@ -289,68 +310,70 @@ play from the <code class="code docutils literal"><span class="pre">dcaf</span><
 <div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook initial_stage.yml
 </pre></div>
 </div>
-<p>Now that the DCAF project has been retrieved it can be used to install the remaining
-support packages. Change into the DCAF project directory.</p>
+<p>Now that the CSC DCAF project has been retrieved the Autodeploynode module can be
+used to install the remaining support packages. Change into the Autodeploynode
+module directory.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/autodeploynode
 </pre></div>
 </div>
-<p>Next run the <code class="code docutils literal"><span class="pre">stage_resources.yml</span></code> play to download the CSC DCAF automation
-resources. The <code class="code docutils literal"><span class="pre">stage_resources.yml</span></code> play requires valid user accounts for
-GitHub and Red Hat as outlined in the <code class="docutils literal"><span class="pre">User</span> <span class="pre">Access</span> <span class="pre">Requirements</span></code> section of
-<a class="reference external" href="http://csc.github.io/dcaf/requirements.html">http://csc.github.io/dcaf/requirements.html</a>. Before you run the play change
-into the <code class="code docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/autodeploynode</span></code> directory and edit the
-following variables in the <code class="code docutils literal"><span class="pre">inventory/group_vars/all.yml</span></code> file.</p>
+<p>Next run the <code class="docutils literal"><span class="pre">stage_resources.yml</span></code> playbook to download the remaining CSC DCAF
+automation resources. The <code class="docutils literal"><span class="pre">stage_resources.yml</span></code> play requires a valid user account
+for Red Hat as outlined in the <code class="docutils literal"><span class="pre">User</span> <span class="pre">Access</span> <span class="pre">Requirements</span></code> section of
+<a class="reference external" href="http://csc.github.io/dcaf/requirements.html">http://csc.github.io/dcaf/requirements.html</a>. Before you run the play change edit
+the following variables in the <code class="docutils literal"><span class="pre">inventory/group_vars/all.yml</span></code> file.</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="c1"># Required User Variables</span>
 <span class="l l-Scalar l-Scalar-Plain">rhn_user</span><span class="p p-Indicator">:</span>
 <span class="l l-Scalar l-Scalar-Plain">rhn_pass</span><span class="p p-Indicator">:</span>
 </pre></div>
 </div>
-<p>Run the stage_resources.yml play:</p>
+<p>Run the stage_resources.yml playbook:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook stage_resources.yml
 </pre></div>
 </div>
 </div>
 <div class="section" id="configure-dcaf-base-variables">
-<h3>Configure DCAF Base variables<a class="headerlink" href="#configure-dcaf-base-variables" title="Permalink to this headline">¶</a></h3>
-<p>The DCAF Base module contains the automation resources to complete the configuration
-of the AutoDeployNode. It uses Ansible for all automation. Before any playbooks
-can be run, the Ansible configuration variables need to be edited per your
-environment. Configure these variables accordingly by editing the variables in the
-<code class="code docutils literal"><span class="pre">dcaf/modules/autodeploynode/inventory/group_vars/all.yml</span></code>.</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">use_bare_metal_os</span><span class="p p-Indicator">:</span>
-</pre></div>
-</div>
-<p>There are basic variables that apply to all deployments that will need to be
-modified before deployment.</p>
+<h4>Configure DCAF Base variables<a class="headerlink" href="#configure-dcaf-base-variables" title="Permalink to this headline">¶</a></h4>
+<p>Now that the Autodeploynode has the CSC DCAF resources staged it can be configured
+to use other modules and projects. Before any playbooks can be run, the configuration
+variables need to be edited per your environment. Configure these variables accordingly
+by editing the variables in the <code class="docutils literal"><span class="pre">dcaf/modules/autodeploynode/inventory/group_vars/all.yml</span></code>.</p>
+<p>There following variables apply to all deployments that will need to be modified
+before deployment.</p>
 <p>By default, the DHCP server will be installed with the following configuration:</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">dns1</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">8.8.8.8</span>
 <span class="l l-Scalar l-Scalar-Plain">dhcp_start</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">20</span>
 <span class="l l-Scalar l-Scalar-Plain">dhcp_end</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
 </pre></div>
 </div>
-<p>The DHCP start and end values above are the last octet of the subnet the server
-is installed in. For example,</p>
-<p>172.17.16.20 would be <code class="code docutils literal"><span class="pre">dhcp_start:</span> <span class="pre">20</span></code> and 172.17.16.60 would be <code class="code docutils literal"><span class="pre">dhcp_end:</span> <span class="pre">60</span></code>.</p>
-<p>To use alternate values, edit the <code class="code docutils literal"><span class="pre">dcaf/modules/autodeploynode/roles/dhcp-server/defaults.yml</span></code>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The DHCP start and end values above are the last octet of the subnet the server
+is installed in. For example,
+172.17.16.20 would be <code class="docutils literal"><span class="pre">dhcp_start:</span> <span class="pre">20</span></code>
+172.17.16.60 would be <code class="docutils literal"><span class="pre">dhcp_end:</span> <span class="pre">60</span></code></p>
+</div>
+<p>To use alternate values, edit the <code class="docutils literal"><span class="pre">dcaf/modules/autodeploynode/roles/dhcp-server/defaults.yml</span></code>
 file with your own values.</p>
 </div>
-<div class="section" id="running-dcaf-base-playbooks">
-<h3>Running DCAF Base Playbooks<a class="headerlink" href="#running-dcaf-base-playbooks" title="Permalink to this headline">¶</a></h3>
-<p>Now that the variables have been configured, run the following playbooks to
-finish the AutoDeployNode deployment.</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/autodeploynode
-ansible-playbook main.yml
+<div class="section" id="running-the-autodeploynode-playbook">
+<h4>Running the Autodeploynode Playbook<a class="headerlink" href="#running-the-autodeploynode-playbook" title="Permalink to this headline">¶</a></h4>
+<p>Now that the variables have been configured, run the following playbooks to finish the AutoDeployNode deployment.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook main.yml
 </pre></div>
 </div>
-<p>The <code class="code docutils literal"><span class="pre">main.yml</span></code> playbook will also run the <code class="code docutils literal"><span class="pre">site_docker.yml</span></code> and
-<code class="code docutils literal"><span class="pre">site_discovery.yml</span></code> playbooks.</p>
-<p>The <code class="code docutils literal"><span class="pre">site_docker.yml</span></code> playbook will start the Hanlon Docker environment.
-First it will clean up any existing containers. Then it will start the Mongo,
-Hanlon Server and TFTP Server containers.</p>
-<p>The <code class="code docutils literal"><span class="pre">site_discovery.yml</span></code> playbook will configure the DHCP service and
-prepare the Hanlon Server for the bare metal OS deployment.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <code class="docutils literal"><span class="pre">main.yml</span></code> playbook will also run the <code class="docutils literal"><span class="pre">site_docker.yml</span></code> and <code class="docutils literal"><span class="pre">site_discovery.yml</span></code>
+playbooks.</p>
+<p>The <code class="docutils literal"><span class="pre">site_docker.yml</span></code> playbook will start the Hanlon Docker environment. First
+it will clean up any existing containers. Then it will start the Mongo, Hanlon
+Server and TFTP Server containers.</p>
+<p class="last">The <code class="docutils literal"><span class="pre">site_discovery.yml</span></code> playbook will configure the DHCP service and prepare
+the Hanlon Server for the bare metal OS deployment.</p>
+</div>
 <p>At this point the AutoDeployNode has been configured and is ready to start using
 for automation.</p>
+</div>
 </div>
 </div>
 </div>
@@ -362,7 +385,7 @@ for automation.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="offline_autodeploy_node.html" class="btn btn-neutral float-right" title="AutoDeployNode Creation - Offline Mode" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bare_metal_os_module.html" class="btn btn-neutral float-right" title="Bare-Metal-OS Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="requirements.html" class="btn btn-neutral" title="Requirements &amp; Dependencies" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -396,7 +419,7 @@ for automation.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2',
+            VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

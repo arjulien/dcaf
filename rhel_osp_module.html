@@ -1,0 +1,563 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>RHEL-OSP Module &mdash; CSC DCAF 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
+        <link rel="next" title="Known Issues and Troubleshooting" href="known_issues.html"/>
+        <link rel="prev" title="KVM-Host Module" href="kvm_host_module.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CSC DCAF
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">RHEL-OSP Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#five-node-types">Five Node Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-the-inventory">Modify the Inventory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inventory-directory-file-structure">Inventory Directory/File Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosts-ini">hosts.ini</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-host-project-variables">Modify Host &amp; Project Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#host-vars">host_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-vars">group_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variables-in-roles">Variables in Roles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-the-red-hat-openstack-platform">Deploy the Red Hat OpenStack Platform</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CSC DCAF</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>RHEL-OSP Module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/rhel_osp_module.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rhel-osp-module">
+<h1>RHEL-OSP Module<a class="headerlink" href="#rhel-osp-module" title="Permalink to this headline">¶</a></h1>
+<p>The RHEL-OSP module uses Keepalived and HAProxy to provide a highly available (HA)
+OpenStack cluster. It is intended to be utilized on a CSC DCAF bare-metal RHEL deployment
+but can be used on an existing environment providing it meets module requirements.</p>
+<p>The RHOSP deployment is complex with numerous services and agents but can be simplified
+by grouping the nodes into five different types.</p>
+<p>At this point the RHEL OS has been successfully deployed on all hosts in the <code class="docutils literal"><span class="pre">hosts.ini</span></code>
+file by the Bare-Metal-OS module. To use the RHEL-OSP automation modify the CSC
+DCAF inventory and variable files then run the playbook(s).</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>Ensure that the following requirements are met:</p>
+<ul>
+<li><p class="first">Ansible 2.0</p>
+</li>
+<li><p class="first">Heat 2014.2 (required for testing playbooks)</p>
+</li>
+<li><p class="first">Internal Virtual IPs</p>
+<p>haproxy_vip</p>
+</li>
+</ul>
+</div>
+<div class="section" id="five-node-types">
+<h2>Five Node Types<a class="headerlink" href="#five-node-types" title="Permalink to this headline">¶</a></h2>
+<p>The module treats each host as one of five types defined in the inventory.</p>
+<ul class="simple">
+<li><strong>HAProxy</strong> nodes that can be physical or virtual machines that run Keepalived
+and HAProxy providing the virtual IP for the cluster.</li>
+<li><strong>Controller</strong> nodes that can be physical or virtual machines that run all the
+APIs and support services for the cluster.</li>
+<li><strong>Network</strong> nodes that can be physical or virtual machines that run the Neutron
+agentsseparate from the control plane.</li>
+<li><strong>Compute</strong> nodes that are recommended be physical machines to leverage hardware
+acceleration for hosting VMs under KVM.</li>
+<li><strong>Swift</strong> storage nodes that can be physical or virtual machines that run the
+Swift storage services.</li>
+</ul>
+</div>
+<div class="section" id="modify-the-inventory">
+<h2>Modify the Inventory<a class="headerlink" href="#modify-the-inventory" title="Permalink to this headline">¶</a></h2>
+<p>The CSC DCAF inventory is located in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory</span></code>
+folder and is the central inventory for all modules. It is based on the Ansible
+inventory hierarchy. The inventory found within this module is only provided as an
+example.</p>
+<div class="section" id="inventory-directory-file-structure">
+<h3>Inventory Directory/File Structure<a class="headerlink" href="#inventory-directory-file-structure" title="Permalink to this headline">¶</a></h3>
+<p>The module follows the default Ansible inventory hierarchy. It only contains the
+files necessary for it to run. Notice there is an <code class="docutils literal"><span class="pre">example-host-type.yml</span></code> file
+for each of the five node types.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/rhel-osp/inventory/
+-- /group_vars
+      ceilometer.yml
+      cinder.yml
+      haproxy.yml
+      neutron.yml
+      openstack.yml
+      swift.yml
+-- hosts.ini
+-- /host_vars
+      example-compute-host.yml
+      example-controller.yml
+      example-haproxy.yml
+      example-network-node.yml
+      example-swift-storage.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="hosts-ini">
+<h3>hosts.ini<a class="headerlink" href="#hosts-ini" title="Permalink to this headline">¶</a></h3>
+<p>The inventory is managed by the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file. The inventory was created
+by the Bare-Metal-OS module but must be modified to use with RHEL-OSP.</p>
+<p>Edit the inventory to reflect your environment.</p>
+<ul class="simple">
+<li><strong>hosts.ini</strong> - Copy and append the contents of the <code class="docutils literal"><span class="pre">/rhel-osp/inventory/hosts.ini</span></code>
+file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> file and modify as
+needed. If appending to this file ensure there is no duplication. All hosts listed
+should be under a <code class="code docutils literal"><span class="pre">[group]</span></code> heading.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">rhel-osp/inventory/hosts.ini</span></code> file contains many <code class="code docutils literal"><span class="pre">[group]</span></code> sections
+with hosts and <code class="code docutils literal"><span class="pre">[group:children]</span></code> sections with groups as an example. Only
+modify the <code class="code docutils literal"><span class="pre">[group]</span></code> of hosts as needed.</p>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># Do not modify a [group:children] section, they are module specific</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+
+<span class="c1"># Host(s) with Compute role - modify as needed</span>
+<span class="o">[</span>compute<span class="o">]</span>
+compute-1
+compute-2
+compute-3
+compute-4
+compute-5
+compute-6
+compute-7
+
+<span class="c1"># Host(s) with Controller role - modify as needed</span>
+<span class="o">[</span>controller<span class="o">]</span>
+controller-1
+controller-2
+controller-3
+
+<span class="c1"># Host(s) with HAProxy role - modify as needed</span>
+<span class="o">[</span>haproxy<span class="o">]</span>
+haproxy-1
+haproxy-2
+
+<span class="c1"># Host(s) that get OpenStack deployed</span>
+<span class="o">[</span>openstack:children<span class="o">]</span>
+controller
+compute
+swift
+haproxy
+neutron-network-node
+scaleio
+
+<span class="c1"># Host(s) with Swift role(s)</span>
+<span class="o">[</span>swift:children<span class="o">]</span>
+swift-proxy
+swift-storage
+
+<span class="o">[</span>swift-proxy:children<span class="o">]</span>
+controller
+
+<span class="o">[</span>swift-storage<span class="o">]</span>
+swift-1
+swift-2
+swift-3
+
+<span class="c1"># Host(s) with SQL role</span>
+<span class="o">[</span>sql:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Keystone role</span>
+<span class="o">[</span>keystone:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with RabbitMQ role</span>
+<span class="o">[</span>rabbitmq_cluster:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Glance role</span>
+<span class="o">[</span>glance:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Cinder role(s)</span>
+<span class="o">[</span>cinder:children<span class="o">]</span>
+cinder-server
+cinder-volume
+
+<span class="o">[</span>cinder-server:children<span class="o">]</span>
+controller
+
+<span class="o">[</span>cinder-volume: children<span class="o">]</span>
+compute
+
+<span class="c1"># Host(s) with Controller-Nova role</span>
+<span class="o">[</span>controller-nova:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Heat role</span>
+<span class="o">[</span>heat:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Ceilometer role(s)</span>
+<span class="o">[</span>ceilometer-control:children<span class="o">]</span>
+controller
+
+<span class="o">[</span>ceilometer:children<span class="o">]</span>
+ceilometer-control
+compute
+
+<span class="c1"># Host(s) with Horizon role</span>
+<span class="o">[</span>horizon:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with Neutron role(s)</span>
+<span class="o">[</span>neutron:children<span class="o">]</span>
+neutron-network-node
+neutron-server
+
+<span class="o">[</span>neutron-network-node:children<span class="o">]</span>
+controller
+
+<span class="o">[</span>neutron-server:children<span class="o">]</span>
+controller
+
+<span class="c1"># Host(s) with MongoDB role</span>
+<span class="o">[</span>mongodb:children<span class="o">]</span>
+controller
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not modify a group of groups <code class="code docutils literal"><span class="pre">[group:children]</span></code>. These groups are defined
+by the module. Add the required hosts in the respective <code class="code docutils literal"><span class="pre">[group]</span></code> section
+as needed.</p>
+</div>
+</div>
+<div class="section" id="modify-host-project-variables">
+<h3>Modify Host &amp; Project Variables<a class="headerlink" href="#modify-host-project-variables" title="Permalink to this headline">¶</a></h3>
+<p>This module uses multiple variables that are managed in various files. The
+<code class="docutils literal"><span class="pre">/rhel-osp/inventory/host_vars/</span></code> folder contains host specific
+variable files and the <code class="docutils literal"><span class="pre">/rhel-osp/inventory/group_vars/</span></code> folder
+contains module specific variable files.</p>
+</div>
+<div class="section" id="host-vars">
+<h3>host_vars<a class="headerlink" href="#host-vars" title="Permalink to this headline">¶</a></h3>
+<p>The variables that will be applied to a specific host are stored in a <code class="docutils literal"><span class="pre">host_name.yml</span></code>
+file. There are two in the example inventory, one for the <code class="docutils literal"><span class="pre">autodeploynode</span></code> and
+one for <code class="docutils literal"><span class="pre">hostname-1</span></code>.</p>
+<ul class="simple">
+<li><strong>host_name.yml</strong> - There should be a <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars/host_name.yml</span></code>
+for each host in the hosts.ini file. Since these files were created by a previous
+module they may need to be renamed. For example if the files are named <code class="docutils literal"><span class="pre">host_name-1,</span> <span class="pre">host_name-2,</span> <span class="pre">...</span></code>
+they may will need to be renamed for your deployment <code class="docutils literal"><span class="pre">controller-1,controller-2,</span> <span class="pre">...</span></code>.
+Now copy and append the contents of the appropriate <code class="docutils literal"><span class="pre">example_host.yml</span></code> and change
+values as needed.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/rhel-osp/inventory/
+-- /host_vars
+      example-compute-host.yml
+      example-controller.yml
+      example-haproxy.yml
+      example-network-node.yml
+      example-swift-storage.yml
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The RHEL-OSP module has numerous types of <code class="docutils literal"><span class="pre">hosts</span></code> based on the RHOSP role or
+service. Copy, rename and modify the appropriate type of example_host.yml file
+as needed.</p>
+</div>
+<p>Below is the <code class="docutils literal"><span class="pre">example-compute-host.yml</span></code></p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="l l-Scalar l-Scalar-Plain">virt</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="l l-Scalar l-Scalar-Plain">dns_if</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eth1</span>
+<span class="l l-Scalar l-Scalar-Plain">nova_virt_type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">kvm</span>
+
+<span class="l l-Scalar l-Scalar-Plain">mgmt_if</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eth0</span>
+  <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.100.51</span>
+  <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+  <span class="l l-Scalar l-Scalar-Plain">gateway</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.100.1</span>
+  <span class="l l-Scalar l-Scalar-Plain">dns1</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">8.8.8.8</span>
+
+<span class="l l-Scalar l-Scalar-Plain">control_if</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eth1</span>
+  <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">192.168.101.51</span>
+  <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+
+<span class="l l-Scalar l-Scalar-Plain">datanet_if</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eth2</span>
+  <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.16.23.51</span>
+  <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+
+<span class="l l-Scalar l-Scalar-Plain">scaleio_if</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">device</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">eth3</span>
+  <span class="l l-Scalar l-Scalar-Plain">ipaddr</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">172.16.26.51</span>
+  <span class="l l-Scalar l-Scalar-Plain">netmask</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">255.255.255.0</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">host_name.yml</span></code> file is being appended to. Check it for duplicate variables.</p>
+</div>
+</div>
+<div class="section" id="group-vars">
+<h3>group_vars<a class="headerlink" href="#group-vars" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned above Ansible allows you to group hosts and assign variables to a
+<code class="code docutils literal"><span class="pre">[group]</span></code>. This allows you to run plays against multiple hosts without
+having to specify them individually. The variables that will be applied to a
+specific group, or group of groups, are stored in a <code class="docutils literal"><span class="pre">group_name.yml</span></code> file. The
+name of this file must match the name of the corresponding <code class="code docutils literal"><span class="pre">[group]</span></code> in the
+<code class="docutils literal"><span class="pre">hosts.ini</span></code> file.</p>
+<p>This module uses several group_vars files located in the <code class="docutils literal"><span class="pre">/rhel-osp/inventory/group_vars</span></code>
+folder. Notice their names match a <code class="code docutils literal"><span class="pre">[group]</span></code> or <code class="code docutils literal"><span class="pre">[group:children]</span></code> so
+all hosts in these groups will have access to the respective variables.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">/rhel-osp/inventory/</span>
+<span class="l l-Scalar l-Scalar-Plain">-- /group_vars</span>
+      <span class="l l-Scalar l-Scalar-Plain">ceilometer.yml</span>
+      <span class="l l-Scalar l-Scalar-Plain">cinder.yml</span>
+      <span class="l l-Scalar l-Scalar-Plain">haproxy.yml</span>
+      <span class="l l-Scalar l-Scalar-Plain">neutron.yml</span>
+      <span class="l l-Scalar l-Scalar-Plain">openstack.yml</span>
+      <span class="l l-Scalar l-Scalar-Plain">swift.yml</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>group_name.yml</strong> - Copy all of the <code class="docutils literal"><span class="pre">/rhel-osp/inventory/group_vars/group_name.yml</span></code>
+files to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder and modify
+as needed per the environment.</li>
+</ul>
+</div>
+<div class="section" id="variables-in-roles">
+<h3>Variables in Roles<a class="headerlink" href="#variables-in-roles" title="Permalink to this headline">¶</a></h3>
+<p>Ansible roles allow you to organize playbooks and reuse common configuration steps
+between different types of hosts. A role will allow you to define what a host is
+supposed to do, instead of having to specify the steps needed to get a server
+configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
+and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
+would need to be modified. Always review both sets of variables for comtent.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/rhel-osp/roles/some_role
+-- /defaults
+      main.yml
+-- /vars
+      main.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploy-the-red-hat-openstack-platform">
+<h3>Deploy the Red Hat OpenStack Platform<a class="headerlink" href="#deploy-the-red-hat-openstack-platform" title="Permalink to this headline">¶</a></h3>
+<p>Next run the <code class="docutils literal"><span class="pre">rhel-osp/site.yml</span></code> playbook to deploy RHEL OSP to the hosts in inventory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/rhel-osp
+ansible-playbook site.yml -i ../../inventory/hosts.ini
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <code class="docutils literal"><span class="pre">site.yml</span></code> playbook will call the following playbooks.</p>
+<p>The <code class="docutils literal"><span class="pre">haproxy.yml</span></code> playbook will create firewall rules, install and configure
+Keepalived and HAProxy.</p>
+<p>The <code class="docutils literal"><span class="pre">control_plane.yml</span></code> playbook will include a series of playbooks that will
+install and configure the control plane services.</p>
+<p>The <code class="docutils literal"><span class="pre">neutron-network-node.yml</span></code> playbook will install and configure the Neutron
+networking on the grouped hosts. It will also set the required firewall rules
+for Neutron.</p>
+<p>The <code class="docutils literal"><span class="pre">compute_node.yml</span></code> playbook will install and configure the required Nova
+Compute packages, Neutron agents and create Nova firewall rules.</p>
+<p>The <code class="docutils literal"><span class="pre">swift.yml</span></code> playbook will install and configure Swift and other required
+agents. It will also create required firewall rules for these services.</p>
+<p class="last">The <code class="docutils literal"><span class="pre">prep-scaleio.yml</span></code> playbook will create the required firewall rules for
+use with EMC SCaleIO.</p>
+</div>
+<p>At this point RHEL OSP has been installed and configured on all hosts listed
+in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="known_issues.html" class="btn btn-neutral float-right" title="Known Issues and Troubleshooting" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="kvm_host_module.html" class="btn btn-neutral" title="KVM-Host Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, CSC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

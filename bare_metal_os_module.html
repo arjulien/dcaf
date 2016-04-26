@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Bare-Metal-OS Module &mdash; CSC DCAF 1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
+        <link rel="next" title="KVM-Host Module" href="kvm_host_module.html"/>
+        <link rel="prev" title="Autodeploynode Module" href="autodeploynode_module.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> CSC DCAF
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Bare-Metal-OS Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#physical-hardware">Physical Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#network-requirements">Network Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-inventory">Create the Inventory</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#inventory-directory-file-structure">Inventory Directory/File Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hosts-ini">hosts.ini</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-host-module-variables">Modify Host &amp; Module Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#host-vars">host_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-vars">group_vars</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variables-in-roles">Variables in Roles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#run-bare-metal-os-automation">Run Bare-Metal-OS Automation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-hosts-for-deployment">Prepare Hosts for Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deploy-the-os">Deploy the OS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CSC DCAF</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Bare-Metal-OS Module</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/bare_metal_os_module.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="bare-metal-os-module">
+<h1>Bare-Metal-OS Module<a class="headerlink" href="#bare-metal-os-module" title="Permalink to this headline">¶</a></h1>
+<p>The Bare-Metal-OS module is the foundation for much of the CSC DCAF automation. It
+deploys the base Operating System for other modules and projects to use. It currently
+supports Red Hat Enterprise Linux.</p>
+<p>At this point the Autodeploynode has been successfully created and is ready to
+use. To use the Bare-Metal-OS automation create the CSC DCAF inventory and variable
+files then run the playbook(s).</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>Ensure that the following requirements are met:</p>
+<div class="section" id="physical-hardware">
+<h3>Physical Hardware<a class="headerlink" href="#physical-hardware" title="Permalink to this headline">¶</a></h3>
+<p>DCAF was developed and tested with the following hardware:</p>
+<ul class="simple">
+<li>DELL PowerEdge 630 | PowerEdge 730</li>
+<li>DELL PERC H730 RAID Controller</li>
+</ul>
+<p>The physical hardware being deployed to meet the following:</p>
+<ul class="simple">
+<li>The physical hardware has been installed and connected to the network</li>
+<li>A 1GB connection for OOB management on the management switch</li>
+<li>2 10GbE connections to the 10GbE network switches</li>
+<li>The upstream and management network are pre-configured</li>
+<li>The out-of-band management IP addresses are pre-configured</li>
+<li>IPMI is enabled on each host</li>
+</ul>
+</div>
+<div class="section" id="network-requirements">
+<h3>Network Requirements<a class="headerlink" href="#network-requirements" title="Permalink to this headline">¶</a></h3>
+<p>There are several network requirements for the deployment.</p>
+<ul class="simple">
+<li>DNS server IP addresses need to be provided</li>
+<li>NTP server IP address needs to be provided</li>
+<li>The following VLANS are required:<ul>
+<li>Out-of-band management (IPMI)</li>
+<li>PXE Network</li>
+</ul>
+</li>
+<li>Out-of-band Network IP address for each node</li>
+<li>Management IP address for each node</li>
+</ul>
+</div>
+</div>
+<div class="section" id="create-the-inventory">
+<h2>Create the Inventory<a class="headerlink" href="#create-the-inventory" title="Permalink to this headline">¶</a></h2>
+<p>The CSC DCAF inventory is located in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory</span></code>
+folder and is the central inventory for all modules. It is based on the Ansible
+inventory hierarchy. The inventory found within the module is only provided as an
+example.</p>
+<div class="section" id="inventory-directory-file-structure">
+<h3>Inventory Directory/File Structure<a class="headerlink" href="#inventory-directory-file-structure" title="Permalink to this headline">¶</a></h3>
+<p>The module follows the default Ansible inventory hierarchy. It only contains the
+files necessary for it to run. Notice there is only one <code class="docutils literal"><span class="pre">hostname-1.yml</span></code> file.
+When the inventory is created in the <code class="docutils literal"><span class="pre">projects/inventory</span></code> folder the <code class="docutils literal"><span class="pre">hostname-1.yml</span></code>
+file will be copied and renamed for each host in the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file. The
+<code class="docutils literal"><span class="pre">autodeploynode.yml</span></code> is a project default and will need to be copied when the
+inventory is created.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/bare-metal-os/inventory/
+-- /group_vars
+      bare_metal_os.yml
+-- hosts.ini
+-- /host_vars
+      autodeploynode.yml
+      hostname-1.yml
+</pre></div>
+</div>
+</div>
+<div class="section" id="hosts-ini">
+<h3>hosts.ini<a class="headerlink" href="#hosts-ini" title="Permalink to this headline">¶</a></h3>
+<p>The inventory is managed by the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file. The format and contents of
+this file will vary depending on the what automation is being used.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">hosts.ini</span></code> will contain <code class="code docutils literal"><span class="pre">[group]</span></code> headings that correspond to
+a module or the role the host will have within the module. Each <code class="code docutils literal"><span class="pre">[group]</span></code> name
+should match the corresponding <code class="docutils literal"><span class="pre">inventory/group_vars/group_name.yml</span></code> group variable
+file if it has one. All hosts listed should be under a <code class="code docutils literal"><span class="pre">[group]</span></code> heading.</p>
+</div>
+<ul class="simple">
+<li><strong>hosts.ini</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/host.ini</span></code> file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/</span></code> folder. Edit it to
+reflect the number of hosts and correct host names for the  deployment. This file
+should contain the DNS resolvable names of the hosts being deployed.</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">bare-metal-os/inventory/hosts.ini</span></code> file contains the following:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------------</span>
+<span class="c1"># Do not modify a [group:children] section, they are module specific</span>
+<span class="c1"># ------------------------------------------------------------------</span>
+
+<span class="c1"># This entry should always be present - do not modify</span>
+<span class="o">[</span>autodeploynode<span class="o">]</span>
+localhost <span class="nv">ansible_connection</span><span class="o">=</span><span class="nb">local</span>
+
+<span class="c1"># Global group for module variables, should contain all other groups.</span>
+<span class="o">[</span>bare_metal_os<span class="o">]</span>
+autodeploynode
+deploy
+
+<span class="c1"># Host(s) to be deployed - modified as needed</span>
+<span class="o">[</span>deploy<span class="o">]</span>
+hostname-1
+...
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not modify a group of groups <code class="code docutils literal"><span class="pre">[group:children]</span></code>. These groups are defined
+by the module. Add the required hosts in the respective <code class="code docutils literal"><span class="pre">[group]</span></code> section
+as needed.</p>
+</div>
+</div>
+</div>
+<div class="section" id="modify-host-module-variables">
+<h2>Modify Host &amp; Module Variables<a class="headerlink" href="#modify-host-module-variables" title="Permalink to this headline">¶</a></h2>
+<p>This module uses multiple variables that are managed in various files. The
+<code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars/</span></code> folder contains host specific
+variable files and the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder
+contains module specific variable files.</p>
+<div class="section" id="host-vars">
+<h3>host_vars<a class="headerlink" href="#host-vars" title="Permalink to this headline">¶</a></h3>
+<p>The variables that will be applied to a specific host are stored in a <code class="docutils literal"><span class="pre">host_name.yml</span></code>
+file. There are two in the example inventory, one for the <code class="docutils literal"><span class="pre">autodeploynode</span></code> and
+one for <code class="docutils literal"><span class="pre">hostname-1</span></code>.</p>
+<ul class="simple">
+<li><strong>host_name.yml</strong> - Copy both the <code class="docutils literal"><span class="pre">autodeploynode</span></code> and <code class="docutils literal"><span class="pre">hostname-1</span></code> files
+to the <code class="docutils literal"><span class="pre">/projects/inventory/host_vars/</span></code> folder. From there copy, rename and
+edit the <code class="docutils literal"><span class="pre">hostname-1.yml</span></code> file for each host in the <code class="docutils literal"><span class="pre">hosts.ini</span></code> file.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/bare-metal-os/inventory/
+-- /host_vars
+      autodeploynode.yml
+      hostname-1.yml
+</pre></div>
+</div>
+<p>Below is the example <code class="docutils literal"><span class="pre">host_name.yml</span></code></p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="c1"># The ip and pxe ip address of the host</span>
+<span class="l l-Scalar l-Scalar-Plain">ansible_ssh_host</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">x.x.x.x</span>
+<span class="l l-Scalar l-Scalar-Plain">pxe_ip_address</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">x.x.x.x</span>
+
+<span class="c1"># The smbios-uuid is an identifier used for bare metal deployments.</span>
+<span class="l l-Scalar l-Scalar-Plain">smbios_uuid</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">{</span> <span class="nv">retrieve for each host using hardware vendor management tools</span> <span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Each <code class="docutils literal"><span class="pre">host_name.yml</span></code> file must include the host hardware <code class="code docutils literal"><span class="pre">smbios-uuid</span></code>.
+This can be found using the hosts vendor management tools. Refer to the vendor
+documentation for more information.</p>
+<p class="last">The <code class="docutils literal"><span class="pre">smbios-uuid</span></code> is unique and specific to the hardware so it must be different
+in each <code class="docutils literal"><span class="pre">host_name.yml</span></code> file.</p>
+</div>
+</div>
+<div class="section" id="group-vars">
+<h3>group_vars<a class="headerlink" href="#group-vars" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned above Ansible allows you to group hosts and assign variables to a
+<code class="code docutils literal"><span class="pre">[group]</span></code>. This allows you to run plays against multiple hosts without
+having to specify them individually. The variables that will be applied to a
+specific group, or group of groups, are stored in a <code class="docutils literal"><span class="pre">group_name.yml</span></code> file. The
+name of this file must match the name of the corresponding <code class="code docutils literal"><span class="pre">[group]</span></code> in the
+<code class="docutils literal"><span class="pre">hosts.ini</span></code> file.</p>
+<p>This module uses a single group_vars file <code class="docutils literal"><span class="pre">/bare-metal-os/inventory/group_vars/bare_metal_os.yml</span></code>.
+Notice it matches the group of groups for the module so all hosts will have access
+to these variables.</p>
+<ul class="simple">
+<li><strong>bare_metal_os.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/bare-metal-os/inventory/group_vars/bare_metal_os.yml</span></code>
+file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder and modify
+as needed per the environment.</li>
+</ul>
+<p>Below is the example <code class="docutils literal"><span class="pre">group_name.yml</span></code> file. Edit as needed for your environment.
+Review all the variables but it is recommended to only change the following.</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="c1"># if the hosts have additional disks that need to be pratitioned</span>
+<span class="l l-Scalar l-Scalar-Plain">partition_additional_disks</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="c1"># IP address of the autodeploynode</span>
+<span class="l l-Scalar l-Scalar-Plain">autodeploynode</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">x.x.x.x</span>
+
+<span class="c1"># DNS IP address</span>
+<span class="l l-Scalar l-Scalar-Plain">dns1</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">x.x.x.x</span>
+
+<span class="c1"># Root password for host(s)</span>
+<span class="l l-Scalar l-Scalar-Plain">site_password</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">localpassword</span>
+
+<span class="c1"># Hardware vendor management user/password</span>
+<span class="l l-Scalar l-Scalar-Plain">ipmi_username</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">root</span>
+<span class="l l-Scalar l-Scalar-Plain">ipmi_password</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">localpassword</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variables-in-roles">
+<h3>Variables in Roles<a class="headerlink" href="#variables-in-roles" title="Permalink to this headline">¶</a></h3>
+<p>Ansible roles allow you to organize playbooks and reuse common configuration steps
+between different types of hosts. A role will allow you to define what a host is
+supposed to do, instead of having to specify the steps needed to get a server
+configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
+and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
+would need to be modified. Always review both sets of variables for comtent.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>/bare-metal-os/roles/some_role
+-- /defaults
+      main.yml
+-- /vars
+      main.yml
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="run-bare-metal-os-automation">
+<h2>Run Bare-Metal-OS Automation<a class="headerlink" href="#run-bare-metal-os-automation" title="Permalink to this headline">¶</a></h2>
+<p>Now that the inventory has been created the Bare-Metal-OS automation can be used.</p>
+<div class="section" id="prepare-hosts-for-deployment">
+<h3>Prepare Hosts for Deployment<a class="headerlink" href="#prepare-hosts-for-deployment" title="Permalink to this headline">¶</a></h3>
+<p>Run the <code class="docutils literal"><span class="pre">bare-metal-os/site_reset.yml</span></code> playbook to power cycle the hosts and have
+them discovered by Hanlon: ​</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/bare-metal-os
+ansible-playbook site_reset.yml -i ../../inventory/hosts.ini
+</pre></div>
+</div>
+</div>
+<div class="section" id="deploy-the-os">
+<h3>Deploy the OS<a class="headerlink" href="#deploy-the-os" title="Permalink to this headline">¶</a></h3>
+<p>Next run the <code class="docutils literal"><span class="pre">bare-metal-os/site_deploy.yml</span></code> playbook to deploy the RHEL OS to
+the hosts in inventory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook site_deploy.yml -i ../../inventory/hosts.ini
+</pre></div>
+</div>
+<p>At this point the RHEL OS has been installed and configured on all hosts listed
+in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="kvm_host_module.html" class="btn btn-neutral float-right" title="KVM-Host Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="autodeploynode_module.html" class="btn btn-neutral" title="Autodeploynode Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, CSC.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

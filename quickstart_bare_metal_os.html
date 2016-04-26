@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bare-metal-OS Quick Start Guide &mdash; CSC DCAF 1.2 documentation</title>
+  <title>Bare-metal-OS Quick Start Guide &mdash; CSC DCAF 1.0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="CSC DCAF 1.2 documentation" href="index.html"/>
+    <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
         <link rel="up" title="CSC DCAF Quick Start Guides" href="quickstart.html"/>
-        <link rel="next" title="Slimer Quick Start Guide" href="quickstart_slimer.html"/>
+        <link rel="next" title="RHEL-OSP Quick Start Guide" href="quickstart_rhel_osp.html"/>
         <link rel="prev" title="Autodeploynode Quick Start Guide" href="quickstart_autodeploynode.html"/> 
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.2
+                1.0
               </div>
             
           
@@ -101,13 +101,17 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Quick Start Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart_slimer.html">Slimer Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_ansible_scaleio.html">Ansible-ScaleIO Quick Start Guide</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
-<li class="toctree-l1"><a class="reference internal" href="config_autodeploy_node.html">AutoDeployNode Creation - Online Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="offline_autodeploy_node.html">AutoDeployNode Creation - Offline Mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bare_metal_os.html">Bare Metal OS Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -158,7 +162,8 @@
   <div class="section" id="bare-metal-os-quick-start-guide">
 <h1>Bare-metal-OS Quick Start Guide<a class="headerlink" href="#bare-metal-os-quick-start-guide" title="Permalink to this headline">¶</a></h1>
 <p>This Quick Start Guide describes how to use CSC DCAF Automation to provision an
-OS on bare-metal hardware, currently RHEL OS. It uses the following resources:</p>
+OS on bare-metal hardware, currently Red Hat Enterprise Linux. It uses the following
+resources:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://github.com/csc/dcaf/bare-metal-os">dcaf/bare-metal-os</a> - An
 automated deployment of an operating system to bare-metal hardware using Hanlon,
@@ -204,53 +209,60 @@ platform which can provision both bare-metal and virtual systems.</li>
 </div>
 <div class="section" id="run-bare-metal-os-automation">
 <h2>Run Bare-metal-OS Automation<a class="headerlink" href="#run-bare-metal-os-automation" title="Permalink to this headline">¶</a></h2>
-<p>The Bare-metal-OS module will deploy an operating system on bare-metal hardware.
-This module requires a base inventory.</p>
+<p>To use the Bare-Metal-OS automation create the inventory and variable files then
+run the playbook(s).</p>
 <div class="section" id="create-the-inventory">
 <h3>Create the Inventory<a class="headerlink" href="#create-the-inventory" title="Permalink to this headline">¶</a></h3>
-<p>The inventory is managed by the <code class="code docutils literal"><span class="pre">hosts.ini</span></code> file. The format and contents of
-this file will vary depending on the what automation is being used. For more information
+<p>The inventory is managed by the <cite>hosts.ini`</cite> file. The format and contents of this
+file will vary depending on the what automation is being used. For more information
 and examples of this file refer to the CSC DCAF project documentation.</p>
 <ul class="simple">
-<li><strong>hosts.ini</strong> - Create or edit the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code>
-file by copying the contents of the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/example_host.ini</span></code> and modifying as needed. This file should
-contain the DNS resolvable names of the hosts being deployed to.</li>
+<li><strong>hosts.ini</strong> - Create the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> file
+by copying the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/hosts.ini</span></code>,
+and modify as needed. This file should contain the DNS resolvable names of the
+hosts being deployed to.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The <code class="code docutils literal"><span class="pre">hosts.ini</span></code> will contain <code class="code docutils literal"><span class="pre">[group]</span></code> headings that correspond to
+<p class="last">The <code class="docutils literal"><span class="pre">hosts.ini</span></code> will contain <code class="code docutils literal"><span class="pre">[group]</span></code> headings that correspond to
 a module or the role the host will have within the module. Each <code class="code docutils literal"><span class="pre">[group]</span></code> name
-should match the corresponding <code class="docutils literal"><span class="pre">inventory/group_vars/groupname.yml</span></code> group variable
+should match the corresponding <code class="docutils literal"><span class="pre">inventory/group_vars/group_name.yml</span></code> group variable
 file. If editing this file append to it and ensure there is no duplication. All
 hosts listed should be under a <code class="code docutils literal"><span class="pre">group</span></code> heading.</p>
 </div>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span>[bare_metal_os] ``(name of the module group variable file)``
-hostname1
-hostname2
-...
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="c1"># This entry should always be present</span>
+<span class="p p-Indicator">[</span><span class="nv">autodeploynode</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">localhost ansible_connection=local</span>
+
+<span class="l l-Scalar l-Scalar-Plain"># Host(s) to be deployed</span>
+<span class="l l-Scalar l-Scalar-Plain">[deploy]</span>
+<span class="l l-Scalar l-Scalar-Plain">hostname1</span>
+<span class="l l-Scalar l-Scalar-Plain">hostname2</span>
+<span class="nn">...</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="modify-host-module-variables">
 <h3>Modify Host &amp; Module Variables<a class="headerlink" href="#modify-host-module-variables" title="Permalink to this headline">¶</a></h3>
-<p>This module uses multiple variables that are managed in two separate files. The
+<p>This module uses multiple variables that are managed in various files. The
 <code class="docutils literal"><span class="pre">inventory/host_vars/host_name.yml</span></code> file contains host specific variables and the
 <code class="docutils literal"><span class="pre">inventory/group_vars/bare_metal_os.yml</span></code> file contains module specific variables.</p>
 <ul class="simple">
 <li><strong>host_name.yml</strong> - There should be a <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars/host_name.yml</span></code>
-for each host in the hosts.ini file. Create or edit these files by copying the contents
-of the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/example_host.ini</span></code>
-and modifying as needed.</li>
+for each host in the hosts.ini file. Create these files by copying the
+<code class="docutils literal"><span class="pre">opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/example_host.ini</span></code>,
+rename it to it host_name.yml and modify as needed.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Each <code class="code docutils literal"><span class="pre">host.yml</span></code> file must include the host hardware <code class="code docutils literal"><span class="pre">smbios-uuid</span></code>.
+<p class="last">Each <code class="docutils literal"><span class="pre">host_name.yml</span></code> file must include the host hardware <code class="code docutils literal"><span class="pre">smbios-uuid</span></code>.
 This can be found using the hosts vendor management tools. Refer to the vendor
 documentation for more information.</p>
 </div>
 <ul class="simple">
-<li><strong>bare_metal_os.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/group_vars/bare_metal_os.yml</span></code> file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code>
-folder and modify as needed per the environment.</li>
+<li><strong>bare_metal_os.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/group_vars/bare_metal_os.yml</span></code>
+file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder and modify
+as needed per the environment.</li>
 </ul>
 </div>
 <div class="section" id="prepare-hosts-for-deployment">
@@ -258,7 +270,7 @@ folder and modify as needed per the environment.</li>
 <p>Run the <code class="docutils literal"><span class="pre">bare-metal-os/site_reset.yml</span></code> playbook to power cycle the hosts and have
 them discovered by Hanlon: ​</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/bare-metal-os
-ansible-playbook site_reset.yml
+ansible-playbook site_reset.yml -i ../../inventory/hosts.ini
 </pre></div>
 </div>
 </div>
@@ -266,7 +278,7 @@ ansible-playbook site_reset.yml
 <h3>Deploy the OS<a class="headerlink" href="#deploy-the-os" title="Permalink to this headline">¶</a></h3>
 <p>Next run the <code class="docutils literal"><span class="pre">bare-metal-os/site_deploy.yml</span></code> playbook to deploy the RHEL OS to
 the hosts in inventory:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook site_deploy.yml
+<div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook site_deploy.yml -i ../../inventory/hosts.ini
 </pre></div>
 </div>
 <p>At this point the RHEL OS has been installed and configured on all hosts listed
@@ -282,7 +294,7 @@ in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quickstart_slimer.html" class="btn btn-neutral float-right" title="Slimer Quick Start Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="quickstart_rhel_osp.html" class="btn btn-neutral float-right" title="RHEL-OSP Quick Start Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quickstart_autodeploynode.html" class="btn btn-neutral" title="Autodeploynode Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -316,7 +328,7 @@ in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.2',
+            VERSION:'1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

@@ -86,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Bare-Metal-OS Module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bare-Metal-OS Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#physical-hardware">Physical Hardware</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#network-requirements">Network Requirements</a></li>
@@ -112,6 +112,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -237,7 +238,7 @@ should match the corresponding <code class="docutils literal"><span class="pre">
 file if it has one. All hosts listed should be under a <code class="code docutils literal"><span class="pre">[group]</span></code> heading.</p>
 </div>
 <ul class="simple">
-<li><strong>hosts.ini</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/host.ini</span></code> file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/</span></code> folder. Edit it to
+<li><strong>hosts.ini</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/hosts.ini</span></code> file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/</span></code> folder. Edit it to
 reflect the number of hosts and correct host names for the  deployment. This file
 should contain the DNS resolvable names of the hosts being deployed.</li>
 </ul>
@@ -255,7 +256,7 @@ localhost <span class="nv">ansible_connection</span><span class="o">=</span><spa
 autodeploynode
 deploy
 
-<span class="c1"># Host(s) to be deployed - modified as needed</span>
+<span class="c1"># Host(s) to be deployed - modify as needed</span>
 <span class="o">[</span>deploy<span class="o">]</span>
 hostname-1
 ...
@@ -354,7 +355,7 @@ between different types of hosts. A role will allow you to define what a host is
 supposed to do, instead of having to specify the steps needed to get a server
 configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
 and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
-would need to be modified. Always review both sets of variables for comtent.</p>
+would need to be modified. Always review both sets of variables for content.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>/bare-metal-os/roles/some_role
 -- /defaults
       main.yml

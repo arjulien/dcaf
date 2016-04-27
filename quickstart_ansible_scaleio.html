@@ -32,7 +32,7 @@
   
     <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
         <link rel="up" title="CSC DCAF Quick Start Guides" href="quickstart.html"/>
-        <link rel="next" title="Requirements &amp; Dependencies" href="requirements.html"/>
+        <link rel="next" title="VMware Module Quick Start Guide" href="quickstart_vmware.html"/>
         <link rel="prev" title="Slimer Quick Start Guide" href="quickstart_slimer.html"/> 
 
   
@@ -85,12 +85,12 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="quickstart_autodeploynode.html">Autodeploynode Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_bare_metal_os.html">Bare-metal-OS Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_autodeploynode.html">Autodeploynode Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_bare_metal_os.html">Bare-metal-OS Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Module Quick Start Guide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart_slimer.html">Slimer Quick Start Guide</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Ansible-ScaleIO Quick Start Guide</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ansible-ScaleIO Quick Start Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#run-the-ansible-scaleio-automation">Run the Ansible-ScaleIO Automation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#download-the-emc-scaleio-software">Download the EMC ScaleIO Software</a></li>
@@ -101,6 +101,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_vmware.html">VMware Module Quick Start Guide</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
@@ -108,6 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -200,9 +202,9 @@ created by a previous module or project but must be modified to use with Ansible
 For more information and examples of this file refer to the CSC DCAF project documentation.</p>
 <p>Edit the inventory to reflect your environment.</p>
 <ul class="simple">
-<li><strong>hosts.ini</strong> - Modify the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/inventory/hosts.ini</span></code> and
+<li><strong>hosts.ini</strong> - Modify the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> and
 add the required <code class="code docutils literal"><span class="pre">[group]</span></code> sections and desired hosts. Use the
-<code class="docutils literal"><span class="pre">opt/autodeploy/projects/ansible-scaleio/inventory/hosts.ini</span></code> as a template
+<code class="docutils literal"><span class="pre">/opt/autodeploy/projects/ansible-scaleio/inventory/hosts.ini</span></code> as a template
 and change values as needed.</li>
 </ul>
 <div class="admonition note">
@@ -223,6 +225,12 @@ duplication. All hosts listed should be under a <code class="code docutils liter
 <span class="l l-Scalar l-Scalar-Plain">host-2</span>
 <span class="nn">...</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not modify a group of groups <code class="code docutils literal"><span class="pre">[group:children]</span></code>. These groups are defined
+by the module. Add the required hosts in the respective <code class="code docutils literal"><span class="pre">[group]</span></code> section
+as needed.</p>
 </div>
 </div>
 <div class="section" id="modify-host-project-variables">
@@ -260,7 +268,7 @@ in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="requirements.html" class="btn btn-neutral float-right" title="Requirements &amp; Dependencies" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="quickstart_vmware.html" class="btn btn-neutral float-right" title="VMware Module Quick Start Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quickstart_slimer.html" class="btn btn-neutral" title="Slimer Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

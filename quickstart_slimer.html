@@ -33,7 +33,7 @@
     <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
         <link rel="up" title="CSC DCAF Quick Start Guides" href="quickstart.html"/>
         <link rel="next" title="Ansible-ScaleIO Quick Start Guide" href="quickstart_ansible_scaleio.html"/>
-        <link rel="prev" title="KVM-Host Quick Start Guide" href="quickstart_kvm_host.html"/> 
+        <link rel="prev" title="KVM-Host Module Quick Start Guide" href="quickstart_kvm_host.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,11 +85,11 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="quickstart_autodeploynode.html">Autodeploynode Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_bare_metal_os.html">Bare-metal-OS Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Quick Start Guide</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Slimer Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_autodeploynode.html">Autodeploynode Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_bare_metal_os.html">Bare-metal-OS Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Module Quick Start Guide</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Slimer Quick Start Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#run-the-slimer-automation">Run the Slimer Automation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#modify-the-inventory">Modify the Inventory</a></li>
@@ -100,6 +100,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="quickstart_ansible_scaleio.html">Ansible-ScaleIO Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_vmware.html">VMware Module Quick Start Guide</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
@@ -107,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -212,8 +214,8 @@ and examples of this file refer to the CSC DCAF project documentation.</p>
 with Slimer.</p>
 <p>Edit the inventory to reflect your environment.</p>
 <ul class="simple">
-<li><strong>hosts.ini</strong> - Modify the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/inventory/hosts.ini</span></code> and
-group the hosts by role. Use the <code class="docutils literal"><span class="pre">opt/autodeploy/projects/slimer/inventory/hosts.ini</span></code>
+<li><strong>hosts.ini</strong> - Modify the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> and
+group the hosts by role. Use the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/slimer/inventory/hosts.ini</span></code>
 as a template and change values as needed. This file should contain the DNS
 resolvable names of the hosts being deployed to.</li>
 </ul>
@@ -235,6 +237,12 @@ All hosts listed should be under a <code class="code docutils literal"><span cla
 <span class="l l-Scalar l-Scalar-Plain">compute-1</span>
 <span class="nn">...</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not modify a group of groups <code class="code docutils literal"><span class="pre">[group:children]</span></code>. These groups are defined
+by the module. Add the required hosts in the respective <code class="code docutils literal"><span class="pre">[group]</span></code> section
+as needed.</p>
 </div>
 </div>
 <div class="section" id="modify-host-project-variables">
@@ -275,7 +283,7 @@ ansible-playbook site.yml -i ../inventory/hosts.ini
         <a href="quickstart_ansible_scaleio.html" class="btn btn-neutral float-right" title="Ansible-ScaleIO Quick Start Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="quickstart_kvm_host.html" class="btn btn-neutral" title="KVM-Host Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quickstart_kvm_host.html" class="btn btn-neutral" title="KVM-Host Module Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

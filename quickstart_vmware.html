@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bare-metal-OS Module Quick Start Guide &mdash; CSC DCAF 1.0 documentation</title>
+  <title>VMware Module Quick Start Guide &mdash; CSC DCAF 1.0 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
         <link rel="up" title="CSC DCAF Quick Start Guides" href="quickstart.html"/>
-        <link rel="next" title="RHEL-OSP Module Quick Start Guide" href="quickstart_rhel_osp.html"/>
-        <link rel="prev" title="Autodeploynode Module Quick Start Guide" href="quickstart_autodeploynode.html"/> 
+        <link rel="next" title="Requirements &amp; Dependencies" href="requirements.html"/>
+        <link rel="prev" title="Ansible-ScaleIO Quick Start Guide" href="quickstart_ansible_scaleio.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -86,26 +86,29 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="quickstart_autodeploynode.html">Autodeploynode Module Quick Start Guide</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Bare-metal-OS Module Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_bare_metal_os.html">Bare-metal-OS Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Module Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_slimer.html">Slimer Quick Start Guide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart_ansible_scaleio.html">Ansible-ScaleIO Quick Start Guide</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">VMware Module Quick Start Guide</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#before-you-begin">Before You Begin</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#physical-hardware">Physical Hardware</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#network-requirements">Network Requirements</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#run-bare-metal-os-automation">Run Bare-metal-OS Automation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#run-the-vmware-automation">Run the VMware Automation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#create-the-inventory">Create the Inventory</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modify-host-module-variables">Modify Host &amp; Module Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modify-host-project-variables">Modify Host &amp; Project Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#run-vmware-automation">Run VMware Automation</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#prepare-hosts-for-deployment">Prepare Hosts for Deployment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#deploy-the-os">Deploy the OS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deploy-vmware-virtual-infrastructure">Deploy VMware Virtual Infrastructure</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_rhel_osp.html">RHEL-OSP Module Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_kvm_host.html">KVM-Host Module Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_slimer.html">Slimer Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_ansible_scaleio.html">Ansible-ScaleIO Quick Start Guide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="quickstart_vmware.html">VMware Module Quick Start Guide</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
@@ -147,11 +150,11 @@
       
           <li><a href="quickstart.html">CSC DCAF Quick Start Guides</a> &raquo;</li>
       
-    <li>Bare-metal-OS Module Quick Start Guide</li>
+    <li>VMware Module Quick Start Guide</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/quickstart_bare_metal_os.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/quickstart_vmware.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -161,21 +164,26 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="bare-metal-os-module-quick-start-guide">
-<h1>Bare-metal-OS Module Quick Start Guide<a class="headerlink" href="#bare-metal-os-module-quick-start-guide" title="Permalink to this headline">¶</a></h1>
-<p>This Quick Start Guide describes how to use CSC DCAF Automation to provision an
-OS on bare-metal hardware, currently Red Hat Enterprise Linux. It uses the following
-resources:</p>
+  <div class="section" id="vmware-module-quick-start-guide">
+<h1>VMware Module Quick Start Guide<a class="headerlink" href="#vmware-module-quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<p>This Quick Start Guide describes how to use CSC DCAF Automation to deploy a VMware
+virtual infrastructure to bare-metal hardware. It uses the following resources:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/csc/dcaf/bare-metal-os">dcaf/bare-metal-os</a> - An
-automated deployment of an operating system to bare-metal hardware using Hanlon,
-currently the Red Hat Enterprise Linux OS.</li>
+<li><a class="reference external" href="https://github.com/csc/dcaf/vmware">VMware</a> - An automated deployment of
+a VMware Virtual Infrastructure on bare-metal hardware.</li>
 <li><a class="reference external" href="https://github.com/csc/Hanlon">Hanlon</a> - As an advanced provisioning
 platform which can provision both bare-metal and virtual systems.</li>
 </ul>
 <div class="section" id="before-you-begin">
 <h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
 <p>Ensure that the following requirements are met:</p>
+<ul class="simple">
+<li>A user account on the VMware website to download the software.</li>
+<li>Download the vSphere 5.5 ISO and VCSA .ova to <code class="docutils literal"><span class="pre">/opt/autodeploy/resources/ISO</span></code>
+folder.</li>
+<li>OVF Tool installed on the Autodeploynode</li>
+<li>vSphere CLI installed on the Autodeploynode</li>
+</ul>
 <div class="section" id="physical-hardware">
 <h3>Physical Hardware<a class="headerlink" href="#physical-hardware" title="Permalink to this headline">¶</a></h3>
 <p>DCAF was developed and tested with the following hardware:</p>
@@ -186,62 +194,86 @@ platform which can provision both bare-metal and virtual systems.</li>
 <p>The physical hardware being deployed to meet the following:</p>
 <ul class="simple">
 <li>The physical hardware has been installed and connected to the network</li>
-<li>A 1GB connection for OOB management on the management switch</li>
-<li>2 10GbE connections to the 10GbE network switches</li>
-<li>The upstream and management network are pre-configured</li>
-<li>The out-of-band management IP addresses are pre-configured</li>
-<li>IPMI is enabled on each host</li>
+<li>Hosts to be deployed to have pass-through RAID controllers</li>
+<li>The system BIOS has been pre-configured, e.g. VT is enabled, boot order</li>
+<li>The out-of-band management IP addresses have been set and IPMI access enabled</li>
 </ul>
 </div>
 <div class="section" id="network-requirements">
 <h3>Network Requirements<a class="headerlink" href="#network-requirements" title="Permalink to this headline">¶</a></h3>
 <p>There are several network requirements for the deployment.</p>
-<ul class="simple">
-<li>DNS server IP addresses need to be provided</li>
-<li>NTP server IP address needs to be provided</li>
-<li>The following VLANS are required:<ul>
+<ul>
+<li><p class="first">DNS server IP addresses need to be provided</p>
+</li>
+<li><p class="first">NTP server IP address needs to be provided</p>
+</li>
+<li><dl class="first docutils">
+<dt>The following VLANS are required:</dt>
+<dd><ul class="first last simple">
 <li>Out-of-band management (IPMI)</li>
 <li>PXE Network</li>
+<li>Management</li>
+<li>vMotion</li>
+<li>VSAN</li>
 </ul>
+</dd>
+</dl>
 </li>
-<li>Out-of-band Network IP address for each node</li>
-<li>Management IP address for each node</li>
+<li><dl class="first docutils">
+<dt>VMKernel IP addresses for each ESXi host</dt>
+<dd><ul class="first last simple">
+<li>vmk0 : PXE Network</li>
+<li>vmk1 : Management Network</li>
+<li>vmk2 : vMotion Network</li>
+<li>vmk3 : VSAN Network</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Out-of-band Network IP address for each host</p>
+</li>
+<li><p class="first">Management IP address for each host and VCSA</p>
+</li>
+<li><p class="first">2 10GbE connections to the 10GbE network switches</p>
+</li>
+<li><p class="first">The upstream and management networks are pre-configured</p>
+</li>
 </ul>
 </div>
 </div>
-<div class="section" id="run-bare-metal-os-automation">
-<h2>Run Bare-metal-OS Automation<a class="headerlink" href="#run-bare-metal-os-automation" title="Permalink to this headline">¶</a></h2>
-<p>To use the Bare-Metal-OS automation create the inventory and variable files then
-run the playbook(s).</p>
+<div class="section" id="run-the-vmware-automation">
+<h2>Run the VMware Automation<a class="headerlink" href="#run-the-vmware-automation" title="Permalink to this headline">¶</a></h2>
+<p>To use the VMware automation create the inventory and variables then run the
+playbook(s).</p>
 <div class="section" id="create-the-inventory">
 <h3>Create the Inventory<a class="headerlink" href="#create-the-inventory" title="Permalink to this headline">¶</a></h3>
-<p>The inventory is managed by the <cite>hosts.ini`</cite> file. The format and contents of this
-file will vary depending on the what automation is being used. For more information
+<p>The inventory is managed by the <code class="code docutils literal"><span class="pre">hosts.ini</span></code> file. The format and contents of
+this file will vary depending on the what automation is being used. For more information
 and examples of this file refer to the CSC DCAF project documentation.</p>
+<p>Edit the inventory to reflect your environment.</p>
 <ul class="simple">
-<li><strong>hosts.ini</strong> - Create the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code> file
-by copying the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/hosts.ini</span></code>,
-and modify as needed. This file should contain the DNS resolvable names of the
-hosts being deployed to.</li>
+<li><strong>hosts.ini</strong> - Copy the <code class="docutils literal"><span class="pre">/vmware/inventory/host_vars/hosts.ini</span></code> file
+to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/</span></code> folder. Edit it to reflect the
+number of hosts and correct host names for the deployment. This file should
+contain the DNS resolvable names of the hosts being deployed.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal"><span class="pre">hosts.ini</span></code> will contain <code class="code docutils literal"><span class="pre">[group]</span></code> headings that correspond to
 a module or the role the host will have within the module. Each <code class="code docutils literal"><span class="pre">[group]</span></code> name
 should match the corresponding <code class="docutils literal"><span class="pre">inventory/group_vars/group_name.yml</span></code> group variable
-file. If editing this file append to it and ensure there is no duplication. All
-hosts listed should be under a <code class="code docutils literal"><span class="pre">group</span></code> heading.</p>
+file if it has one. All hosts listed should be under a <code class="code docutils literal"><span class="pre">[group]</span></code> heading.</p>
 </div>
-<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Example snippet from the hosts.ini file</span>
-<span class="l l-Scalar l-Scalar-Plain"># This entry should always be present</span>
-<span class="l l-Scalar l-Scalar-Plain">[autodeploynode]</span>
-<span class="l l-Scalar l-Scalar-Plain">localhost ansible_connection=local</span>
-
-<span class="l l-Scalar l-Scalar-Plain"># Host(s) to be deployed</span>
-<span class="l l-Scalar l-Scalar-Plain">[deploy]</span>
-<span class="l l-Scalar l-Scalar-Plain">hostname1</span>
-<span class="l l-Scalar l-Scalar-Plain">hostname2</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">Example snippet from the hosts.ini file</span><span class="p p-Indicator">:</span>
+<span class="c1"># Host(s) to be deployed - modify as needed</span>
+<span class="p p-Indicator">[</span><span class="nv">foundation_esxi</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">foundation-esxi-01</span>
+<span class="l l-Scalar l-Scalar-Plain">foundation-esxi-02</span>
 <span class="nn">...</span>
+
+<span class="c1"># VCSA to be deployed - modify as needed</span>
+<span class="p p-Indicator">[</span><span class="nv">vcsa</span><span class="p p-Indicator">]</span>
+<span class="l l-Scalar l-Scalar-Plain">foundation-vcsa</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -251,16 +283,16 @@ by the module. Add the required hosts in the respective <code class="code docuti
 as needed.</p>
 </div>
 </div>
-<div class="section" id="modify-host-module-variables">
-<h3>Modify Host &amp; Module Variables<a class="headerlink" href="#modify-host-module-variables" title="Permalink to this headline">¶</a></h3>
-<p>This module uses multiple variables that are managed in various files. The
-<code class="docutils literal"><span class="pre">inventory/host_vars/host_name.yml</span></code> file contains host specific variables and the
-<code class="docutils literal"><span class="pre">inventory/group_vars/bare_metal_os.yml</span></code> file contains module specific variables.</p>
+<div class="section" id="modify-host-project-variables">
+<h3>Modify Host &amp; Project Variables<a class="headerlink" href="#modify-host-project-variables" title="Permalink to this headline">¶</a></h3>
+<p>This project uses multiple variables that are managed in various files. The
+<code class="docutils literal"><span class="pre">host_vars/host_name.yml</span></code> file contains host specific variables and the
+<code class="docutils literal"><span class="pre">group_vars/group_name.yml</span></code> files contain project specific variables.</p>
 <ul class="simple">
 <li><strong>host_name.yml</strong> - There should be a <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars/host_name.yml</span></code>
-for each host in the hosts.ini file. Create these files by copying the
-<code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/host_vars/example_hosts.ini</span></code>,
-rename it to it host_name.yml and modify as needed.</li>
+file for each host, based on VMware role or service, in the hosts.ini file. Copy
+them from the <code class="docutils literal"><span class="pre">/vmware/inventory/host_vars</span></code> folder to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/host_vars</span></code>
+folder and modify as needed.</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -269,29 +301,35 @@ This can be found using the hosts vendor management tools. Refer to the vendor
 documentation for more information.</p>
 </div>
 <ul class="simple">
-<li><strong>bare_metal_os.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/dcaf/modules/bare-metal-os/inventory/group_vars/bare_metal_os.yml</span></code>
+<li><strong>foundation-esxi.yml</strong> - Copy the <code class="docutils literal"><span class="pre">/vmware/inventory/group_vars/foundation-esxi.yml</span></code>
 file to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars/</span></code> folder and modify
 as needed per the environment.</li>
+<li><strong>/group_vars/all/</strong> <code class="docutils literal"><span class="pre">.yml</span></code> files - Copy the <code class="docutils literal"><span class="pre">/vmware/inventory/group_vars/all</span></code>
+folder and its contents to the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/group_vars</span></code>
+folder. Review all variables and change as needed.</li>
 </ul>
 </div>
+</div>
+<div class="section" id="run-vmware-automation">
+<h2>Run VMware Automation<a class="headerlink" href="#run-vmware-automation" title="Permalink to this headline">¶</a></h2>
+<p>Now that the inventory has been created the VMware automation can be used.</p>
 <div class="section" id="prepare-hosts-for-deployment">
 <h3>Prepare Hosts for Deployment<a class="headerlink" href="#prepare-hosts-for-deployment" title="Permalink to this headline">¶</a></h3>
-<p>Run the <code class="docutils literal"><span class="pre">bare-metal-os/site_reset.yml</span></code> playbook to power cycle the hosts and have
-them discovered by Hanlon: ​</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/bare-metal-os
-ansible-playbook site_reset.yml -i ../../inventory/hosts.ini
+<p>In order for Hanlon to deploy anything to a host the host has to be <cite>discovered</cite>
+by Hanlon. The discovery process provides Hanlon information about the host.</p>
+<p>To have the hosts <cite>discovered</cite> by Hanlon simply boot each host. The host will PXE
+boot to Hanlon, register itself and power off.</p>
+</div>
+<div class="section" id="deploy-vmware-virtual-infrastructure">
+<h3>Deploy VMware Virtual Infrastructure<a class="headerlink" href="#deploy-vmware-virtual-infrastructure" title="Permalink to this headline">¶</a></h3>
+<p>Next run the <code class="docutils literal"><span class="pre">/vmware/site_deploy.yml</span></code> playbook to deploy the vSphere to the
+hosts in inventory:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> /opt/autodeploy/projects/dcaf/modules/vmware
+ansible-playbook site_deploy.yml -i ../../inventory/hosts.ini
 </pre></div>
 </div>
-</div>
-<div class="section" id="deploy-the-os">
-<h3>Deploy the OS<a class="headerlink" href="#deploy-the-os" title="Permalink to this headline">¶</a></h3>
-<p>Next run the <code class="docutils literal"><span class="pre">bare-metal-os/site_deploy.yml</span></code> playbook to deploy the RHEL OS to
-the hosts in inventory:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook site_deploy.yml -i ../../inventory/hosts.ini
-</pre></div>
-</div>
-<p>At this point the RHEL OS has been installed and configured on all hosts listed
-in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code>.</p>
+<p>At this point the VMware virtual infrastructure and foundation cluster have been
+installed and configured on all hosts listed in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects/inventory/hosts.ini</span></code>.</p>
 </div>
 </div>
 </div>
@@ -303,10 +341,10 @@ in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quickstart_rhel_osp.html" class="btn btn-neutral float-right" title="RHEL-OSP Module Quick Start Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="requirements.html" class="btn btn-neutral float-right" title="Requirements &amp; Dependencies" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="quickstart_autodeploynode.html" class="btn btn-neutral" title="Autodeploynode Module Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="quickstart_ansible_scaleio.html" class="btn btn-neutral" title="Ansible-ScaleIO Quick Start Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

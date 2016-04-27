@@ -85,7 +85,8 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">CSC DCAF Quick Start Guides</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Autodeploynode Module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Autodeploynode Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#install-the-rhel-os">Install the RHEL OS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#set-the-static-ip">Set the Static IP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#set-the-hostname">Set the Hostname</a></li>
@@ -109,6 +110,7 @@
 <li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -161,12 +163,25 @@ all the source files and dependencies to support operation of the framework. It 
 connected to an external network with direct access to automation resources. Since
 our projects have multiple dependencies we have automated the process to install
 and configure the Autodeploynode as much as possible.</p>
+<div class="section" id="before-you-begin">
+<h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
+<p>Ensure that the following requirements are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>It can be deployed on a physical or virtual machine</li>
+<li>It has an IP address on the PXE &amp; IPMI Network</li>
+<li>At least 50GB of available disk space</li>
+<li>Red Hat user account with a valid subscription (to download the ISO)</li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="install-the-rhel-os">
 <h2>Install the RHEL OS<a class="headerlink" href="#install-the-rhel-os" title="Permalink to this headline">¶</a></h2>
 <p>The first step is to install RHEL. This can be a physical or virtual machine as
 long as all the requirements are met.</p>
-<p>Using the media that is appropriate for your hardware boot into the RHEL
-installation.</p>
+<p>Download the appropriate version of the RHEL ISO file and save it somewhere that
+can be accessed by the Autodeploynode. Use the vendor management tools to attach
+the ISO file and boot to it.</p>
 <p>On the installation summary page, you may see different selections with yellow
 exclamation or warning marks. These are areas that require some setup:</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>Date &amp; Time : Current Date / Time ? Time Zone

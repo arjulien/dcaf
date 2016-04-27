@@ -87,7 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Requirements &amp; Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">KVM-Host Module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">KVM-Host Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#two-host-types">Two Host Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modify-the-inventory">Modify the Inventory</a><ul>
@@ -103,6 +103,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="rhel_osp_module.html">RHEL-OSP Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -163,6 +164,8 @@ DCAF inventory and variable files then run the playbook(s).</p>
 <div class="section" id="before-you-begin">
 <h2>Before You Begin<a class="headerlink" href="#before-you-begin" title="Permalink to this headline">¶</a></h2>
 <p>Ensure that the following requirements are met:</p>
+<p>The module does not have any specific requirements as it uses the Bare-Metal-OS module
+deployment.</p>
 </div>
 <div class="section" id="two-host-types">
 <h2>Two Host Types<a class="headerlink" href="#two-host-types" title="Permalink to this headline">¶</a></h2>
@@ -350,7 +353,7 @@ between different types of hosts. A role will allow you to define what a host is
 supposed to do, instead of having to specify the steps needed to get a server
 configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
 and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
-would need to be modified. Always review both sets of variables for comtent.</p>
+would need to be modified. Always review both sets of variables for content.</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>/kvm-host/roles/some_role
 -- /defaults
       main.yml

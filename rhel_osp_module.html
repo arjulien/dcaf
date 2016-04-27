@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="CSC DCAF 1.0 documentation" href="index.html"/>
-        <link rel="next" title="Known Issues and Troubleshooting" href="known_issues.html"/>
+        <link rel="next" title="VMware Module" href="vmware_module.html"/>
         <link rel="prev" title="KVM-Host Module" href="kvm_host_module.html"/> 
 
   
@@ -88,7 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="autodeploynode_module.html">Autodeploynode Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bare_metal_os_module.html">Bare-Metal-OS Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="kvm_host_module.html">KVM-Host Module</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">RHEL-OSP Module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RHEL-OSP Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before You Begin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#five-node-types">Five Node Types</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modify-the-inventory">Modify the Inventory</a><ul>
@@ -103,6 +103,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="vmware_module.html">VMware Module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="known_issues.html">Known Issues and Troubleshooting</a></li>
 </ul>
 
@@ -275,6 +276,7 @@ swift-storage
 <span class="o">[</span>swift-proxy:children<span class="o">]</span>
 controller
 
+<span class="c1"># Host(s) with Swift role - modify as needed</span>
 <span class="o">[</span>swift-storage<span class="o">]</span>
 swift-1
 swift-2
@@ -453,7 +455,7 @@ between different types of hosts. A role will allow you to define what a host is
 supposed to do, instead of having to specify the steps needed to get a server
 configured a certain way. Role specific variables are stored in the <code class="docutils literal"><span class="pre">/roles/some_role/defaults</span></code>
 and <code class="docutils literal"><span class="pre">/roles/some_role/vars</span></code> folders. Typically only the <code class="docutils literal"><span class="pre">/roles/some_roles/defaults</span></code>
-would need to be modified. Always review both sets of variables for comtent.</p>
+would need to be modified. Always review both sets of variables for content.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>/rhel-osp/roles/some_role
 -- /defaults
       main.yml
@@ -499,7 +501,7 @@ in the <code class="docutils literal"><span class="pre">/opt/autodeploy/projects
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="known_issues.html" class="btn btn-neutral float-right" title="Known Issues and Troubleshooting" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="vmware_module.html" class="btn btn-neutral float-right" title="VMware Module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="kvm_host_module.html" class="btn btn-neutral" title="KVM-Host Module" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

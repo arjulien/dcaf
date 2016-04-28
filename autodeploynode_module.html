@@ -372,19 +372,27 @@ file with your own values.</p>
 </div>
 <div class="section" id="running-the-autodeploynode-playbook">
 <h4>Running the Autodeploynode Playbook<a class="headerlink" href="#running-the-autodeploynode-playbook" title="Permalink to this headline">¶</a></h4>
-<p>Now that the variables have been configured, run the following playbooks to finish the AutoDeployNode deployment.</p>
+<p>Now that the variables have been configured, run the following playbooks to
+finish the AutoDeployNode deployment.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>ansible-playbook main.yml
 </pre></div>
 </div>
+<p>The <code class="docutils literal"><span class="pre">main.yml</span></code> playbook will run the following roles:</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>base</strong> - Configures the base system requirements</li>
+<li><strong>dhcp-server</strong> - Configures the system to run a DHCP server and sets up
+requirements for using Hanlon for discover and provisioning</li>
+<li><strong>hanlon-docker</strong> - Configures the Hanlon Server Docker environment</li>
+<li><strong>hanlon-discover</strong> - Configures the Hanlon Server to support discovery of
+nodes booted on the PXE network</li>
+</ul>
+</div></blockquote>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>The <code class="docutils literal"><span class="pre">main.yml</span></code> playbook will also run the <code class="docutils literal"><span class="pre">site_docker.yml</span></code> and <code class="docutils literal"><span class="pre">site_discovery.yml</span></code>
-playbooks.</p>
-<p>The <code class="docutils literal"><span class="pre">site_docker.yml</span></code> playbook will start the Hanlon Docker environment. First
-it will clean up any existing containers. Then it will start the Mongo, Hanlon
-Server and TFTP Server containers.</p>
-<p class="last">The <code class="docutils literal"><span class="pre">site_discovery.yml</span></code> playbook will configure the DHCP service and prepare
-the Hanlon Server for the bare metal OS deployment.</p>
+<p>To re-run role(s) again without running the entire <code class="docutils literal"><span class="pre">main.yml</span></code>, tags can be
+used at the command line to run certain roles.</p>
+<p class="last"><code class="docutils literal"><span class="pre">ansible-playbook</span> <span class="pre">main.yml</span> <span class="pre">--tags=hanlon-docker,hanlon-discover</span></code></p>
 </div>
 <p>At this point the AutoDeployNode has been configured and is ready to start using
 for automation.</p>
